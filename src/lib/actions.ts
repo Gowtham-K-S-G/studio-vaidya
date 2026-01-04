@@ -3,7 +3,7 @@
 
 import { getHealthAdvice, type GetHealthAdviceInput } from '@/ai/flows/multilingual-health-advice';
 import { imageBasedDiagnosis, type ImageBasedDiagnosisInput } from '@/ai/flows/image-based-diagnosis';
-import { analyzeVoiceSymptoms, type VoiceSymptomsInput } from '@/ai/flows/voice-based-symptom-analysis';
+import { analyzeVoiceSymptoms as analyzeVoiceSymptomsFlow, type VoiceSymptomsInput } from '@/ai/flows/voice-based-symptom-analysis';
 import { textToSpeech as textToSpeechFlow } from '@/ai/flows/text-to-speech';
 import { z } from 'zod';
 import { ZodError } from 'zod';
@@ -57,7 +57,7 @@ export async function getImageDiagnosis(input: ImageBasedDiagnosisInput) {
 export async function analyzeVoiceSymptoms(input: VoiceSymptomsInput) {
     try {
       VoiceSymptomInputSchema.parse(input);
-      const result = await analyzeVoiceSymptoms(input);
+      const result = await analyzeVoiceSymptomsFlow(input);
       return { success: true, data: result };
     } catch (error) {
       if (error instanceof ZodError) {
