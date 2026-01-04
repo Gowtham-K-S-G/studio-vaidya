@@ -37,12 +37,17 @@ const prompt = ai.definePrompt({
   output: {schema: VoiceSymptomsOutputSchema},
   prompt: `You are a helpful AI assistant specialized in analyzing symptoms described by patients.
 
-You will receive voice data containing the patient's description of their symptoms in {{{language}}}.
-Analyze the symptoms and provide possible causes and suggested next steps in {{{language}}}.
+You will receive voice data containing the patient's description of their symptoms. The user has requested that the response be in the following language: {{{language}}}.
+
+Analyze the symptoms from the audio and provide a response.
+
+You MUST provide the entire response (possibleCauses and suggestedNextSteps) in the following language: {{{language}}}.
 
 Voice data: {{media url=voiceDataUri}}
 
-Respond with a JSON object containing possibleCauses and suggestedNextSteps.`,
+Respond with a JSON object with the following keys, ensuring all string values are in the requested language:
+- possibleCauses: Possible causes of the described symptoms.
+- suggestedNextSteps: Suggested next steps for the patient.`,
 });
 
 const analyzeVoiceSymptomsFlow = ai.defineFlow(
