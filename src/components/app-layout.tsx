@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -18,7 +19,6 @@ import {
   LayoutDashboard,
   HeartPulse,
   Calendar,
-  Pill,
   FileText,
   Bot,
 } from "lucide-react";
@@ -36,37 +36,37 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <SidebarProvider>
-      <Sidebar>
-        <SidebarHeader>
-          <div className="flex items-center gap-2">
-            <Logo className="size-8 text-primary" />
-            <span className="text-lg font-semibold">Swasth Sahayak</span>
-          </div>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarMenu>
-            {navItems.map((item) => (
-              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === item.href}
-                  tooltip={item.label}
-                >
-                  <Link href={item.href}>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarContent>
-        <SidebarFooter>
-           {/* Can add user profile or settings here */}
-        </SidebarFooter>
-      </Sidebar>
-      <SidebarInset>{children}</SidebarInset>
-    </SidebarProvider>
+      <SidebarProvider>
+        <Sidebar>
+          <SidebarHeader>
+            <div className="flex items-center gap-2">
+              <Logo className="size-8 text-primary" />
+              <span className="text-lg font-semibold">Swasth Sahayak</span>
+            </div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarMenu>
+              {navItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href}
+                    tooltip={item.label}
+                  >
+                    <Link href={item.href}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarContent>
+          <SidebarFooter>
+             {/* Can add user profile or settings here */}
+          </SidebarFooter>
+        </Sidebar>
+        <SidebarInset>{children}</SidebarInset>
+      </SidebarProvider>
   );
 }

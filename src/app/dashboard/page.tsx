@@ -1,48 +1,55 @@
+"use client";
+
 import Link from 'next/link';
 import { AppLayout } from '@/components/app-layout';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Bot, Calendar, HeartPulse, FileText, ArrowRight, Pill } from 'lucide-react';
-
-const featureCards = [
-  {
-    icon: Bot,
-    title: 'AI Assistant',
-    description: 'Get instant health advice by describing your symptoms or uploading an image.',
-    href: '/symptom-checker',
-    cta: 'Get Diagnosis',
-  },
-  {
-    icon: Calendar,
-    title: 'Appointments',
-    description: 'Book and manage your appointments with healthcare professionals.',
-    href: '/appointments',
-    cta: 'Book Now',
-  },
-  {
-    icon: HeartPulse,
-    title: 'Health Tracker',
-    description: 'Monitor your medications and vital signs to stay on top of your health.',
-    href: '/health-tracker',
-    cta: 'View Tracker',
-  },
-  {
-    icon: FileText,
-    title: 'Health Records',
-    description: 'Access your complete medical history and past consultations securely.',
-    href: '/health-records',
-    cta: 'View Records',
-  },
-];
+import { useLanguage } from '@/context/language-context';
+import { translations } from '@/lib/i18n';
 
 export default function DashboardPage() {
+  const { language } = useLanguage();
+  const t = translations[language].dashboard;
+
+  const featureCards = [
+    {
+      icon: Bot,
+      title: t.featureCards.aiAssistant.title,
+      description: t.featureCards.aiAssistant.description,
+      href: '/symptom-checker',
+      cta: t.featureCards.aiAssistant.cta,
+    },
+    {
+      icon: Calendar,
+      title: t.featureCards.appointments.title,
+      description: t.featureCards.appointments.description,
+      href: '/appointments',
+      cta: t.featureCards.appointments.cta,
+    },
+    {
+      icon: HeartPulse,
+      title: t.featureCards.healthTracker.title,
+      description: t.featureCards.healthTracker.description,
+      href: '/health-tracker',
+      cta: t.featureCards.healthTracker.cta,
+    },
+    {
+      icon: FileText,
+      title: t.featureCards.healthRecords.title,
+      description: t.featureCards.healthRecords.description,
+      href: '/health-records',
+      cta: t.featureCards.healthRecords.cta,
+    },
+  ];
+
   return (
     <AppLayout>
       <div className="flex flex-col">
         <PageHeader
-          title="Welcome to Swasth Sahayak"
-          description="Your personal AI health assistant."
+          title={t.title}
+          description={t.description}
         />
         <main className="flex-1 space-y-8 p-4 md:p-8">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -56,7 +63,7 @@ export default function DashboardPage() {
                   <CardDescription>{feature.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto">
-                  <Link href={feature.href} passHref>
+                  <Link href={feature.href}>
                     <Button className="w-full">
                       {feature.cta}
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -68,18 +75,18 @@ export default function DashboardPage() {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle>Today's Reminders</CardTitle>
-              <CardDescription>Your medication and appointments for today.</CardDescription>
+              <CardTitle>{t.reminders.title}</CardTitle>
+              <CardDescription>{t.reminders.description}</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-center gap-2">
                   <Pill className="h-4 w-4 text-primary" />
-                  <span>Take Paracetamol - 1 tablet at 2:00 PM</span>
+                  <span>{t.reminders.medication}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-accent" />
-                  <span>Appointment with Dr. Sharma at 4:30 PM</span>
+                  <span>{t.reminders.appointment}</span>
                 </li>
               </ul>
             </CardContent>
