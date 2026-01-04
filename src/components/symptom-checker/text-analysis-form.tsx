@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -31,7 +32,7 @@ import {
 } from '@/components/ui/form';
 import { getSymptomAdvice, textToSpeech } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Volume2 } from 'lucide-react';
+import { Bot, Loader2, Volume2, AlertTriangle } from 'lucide-react';
 
 const formSchema = z.object({
   symptoms: z.string().min(10, 'Please describe your symptoms in more detail (at least 10 characters).'),
@@ -157,7 +158,7 @@ export function TextAnalysisForm() {
       </Form>
       {result && (
         <CardContent>
-          <div className="mt-4 rounded-lg border bg-secondary/50 p-4">
+          <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-4">
             <div className="flex justify-between items-center mb-2">
                 <h3 className="flex items-center gap-2 font-semibold">
                 <Bot className="h-5 w-5 text-primary" />
@@ -173,6 +174,12 @@ export function TextAnalysisForm() {
                 </Button>
             </div>
             <p className="text-sm text-foreground">{result}</p>
+            <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+                <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                <p className="text-xs">
+                    <strong>Disclaimer:</strong> This is a preliminary analysis by an AI and is not a substitute for professional medical advice. Please consult a qualified healthcare provider for an accurate diagnosis and treatment.
+                </p>
+            </div>
           </div>
         </CardContent>
       )}

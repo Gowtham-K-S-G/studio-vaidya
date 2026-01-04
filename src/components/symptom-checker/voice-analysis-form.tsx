@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -30,7 +31,7 @@ import {
 } from '@/components/ui/form';
 import { analyzeVoiceSymptoms, textToSpeech } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Mic, Square, Volume2 } from 'lucide-react';
+import { Bot, Loader2, Mic, Square, Volume2, AlertTriangle } from 'lucide-react';
 import type { VoiceSymptomsOutput } from '@/ai/flows/voice-based-symptom-analysis';
 
 const formSchema = z.object({
@@ -100,7 +101,7 @@ export function VoiceAnalysisForm() {
     if (audioDataUri) {
       form.handleSubmit(onSubmit)();
     }
-  }, [audioDataUri]);
+  }, [audioDataUri, form]);
 
 
   async function onSubmit(values: FormValues) {
@@ -226,6 +227,12 @@ export function VoiceAnalysisForm() {
                     </Button>
                 </div>
                 <p>{result.suggestedNextSteps}</p>
+            </div>
+            <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+                <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                <p className="text-xs">
+                    <strong>Disclaimer:</strong> This is a preliminary analysis by an AI and is not a substitute for professional medical advice. Please consult a qualified healthcare provider for an accurate diagnosis and treatment.
+                </p>
             </div>
           </div>
         </CardContent>
