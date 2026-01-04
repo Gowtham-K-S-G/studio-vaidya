@@ -46,14 +46,14 @@ const prompt = ai.definePrompt({
   output: {schema: ImageBasedDiagnosisOutputSchema},
   prompt: `You are a medical AI assistant specializing in preliminary diagnosis based on images.
 
-  Analyze the provided image of a skin condition or wound and any additional description to provide a preliminary diagnosis, assess its severity, and offer recommendations on seeking professional medical help.
+  Analyze the provided image of a skin condition or wound and any additional description.
 
-  Provide the response in the following language: {{{language}}}.
+  You MUST provide the entire response (diagnosis, severity, and recommendation) in the following language: {{{language}}}.
 
   Image: {{media url=photoDataUri}}
   Description: {{{description}}}
 
-  Respond with a JSON object with the following keys:
+  Respond with a JSON object with the following keys, ensuring all string values are in the requested language:
   - diagnosis: A preliminary diagnosis of the condition.
   - severity: The severity of the condition (e.g., mild, moderate, severe).
   - recommendation: Recommendation on whether to seek professional medical help and potential next steps.
