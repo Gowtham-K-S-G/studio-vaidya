@@ -12,7 +12,7 @@ const ptSans = PT_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Swasth Sahayak',
+  title: 'VAIDYA',
   description: 'AI-Based Virtual Health Assistant',
 };
 

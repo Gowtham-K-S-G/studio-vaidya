@@ -41,7 +41,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <SidebarHeader>
             <div className="flex items-center gap-2">
               <Logo className="size-8 text-primary" />
-              <span className="text-lg font-semibold">Swasth Sahayak</span>
+              <span className="text-lg font-semibold">VAIDYA</span>
             </div>
           </SidebarHeader>
           <SidebarContent>

@@ -1,7 +1,7 @@
 export const translations = {
     English: {
       dashboard: {
-        title: "Welcome to Swasth Sahayak",
+        title: "Welcome to VAIDYA",
         description: "Your personal AI health assistant.",
         featureCards: {
           aiAssistant: {
@@ -35,7 +35,7 @@ export const translations = {
     },
     Hindi: {
       dashboard: {
-        title: "स्वस्थ सहायक में आपका स्वागत है",
+        title: "वैद्य में आपका स्वागत है",
         description: "आपका व्यक्तिगत एआई स्वास्थ्य सहायक।",
         featureCards: {
           aiAssistant: {
@@ -69,7 +69,7 @@ export const translations = {
     },
     Kannada: {
         dashboard: {
-          title: "ಸ್ವಸ್ಥ್ ಸಹಾಯಕಕ್ಕೆ ಸ್ವಾಗತ",
+          title: "ವೈದ್ಯಕ್ಕೆ ಸ್ವಾಗತ",
           description: "ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಎಐ ಆರೋಗ್ಯ ಸಹಾಯಕ.",
           featureCards: {
             aiAssistant: {
@@ -103,7 +103,7 @@ export const translations = {
     },
     Tamil: {
         dashboard: {
-          title: "ஸ்வஸ்த் સહાયક க்கு வரவேற்கிறோம்",
+          title: "வைத்யாவிற்கு வரவேற்கிறோம்",
           description: "உங்கள் தனிப்பட்ட AI சுகாதார உதவியாளர்.",
           featureCards: {
             aiAssistant: {
