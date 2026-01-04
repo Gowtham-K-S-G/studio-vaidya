@@ -16,6 +16,7 @@ const GetHealthAdviceInputSchema = z.object({
 const ImageBasedDiagnosisInputSchema = z.object({
     photoDataUri: z.string().min(1, "Please upload an image."),
     description: z.string().optional(),
+    language: z.string(),
 });
 
 const VoiceSymptomInputSchema = z.object({

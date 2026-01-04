@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -18,6 +19,7 @@ const ImageBasedDiagnosisInputSchema = z.object({
       "A photo of a skin rash or wound, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
   description: z.string().optional().describe('Additional description of the condition.'),
+  language: z.string().describe('The language for the diagnosis output.'),
 });
 export type ImageBasedDiagnosisInput = z.infer<typeof ImageBasedDiagnosisInputSchema>;
 
@@ -45,6 +47,8 @@ const prompt = ai.definePrompt({
   prompt: `You are a medical AI assistant specializing in preliminary diagnosis based on images.
 
   Analyze the provided image of a skin condition or wound and any additional description to provide a preliminary diagnosis, assess its severity, and offer recommendations on seeking professional medical help.
+
+  Provide the response in the following language: {{{language}}}.
 
   Image: {{media url=photoDataUri}}
   Description: {{{description}}}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef } from 'react';
@@ -28,6 +29,7 @@ import { getImageDiagnosis } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Bot, Loader2, Upload, AlertTriangle } from 'lucide-react';
 import type { ImageBasedDiagnosisOutput } from '@/ai/flows/image-based-diagnosis';
+import { useLanguage } from '@/context/language-context';
 
 const formSchema = z.object({
   photo: z.any().refine(
@@ -45,6 +47,7 @@ export function ImageAnalysisForm() {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { language } = useLanguage();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -77,6 +80,7 @@ export function ImageAnalysisForm() {
     const response = await getImageDiagnosis({
       photoDataUri: preview,
       description: values.description,
+      language: language,
     });
     
     setIsLoading(false);

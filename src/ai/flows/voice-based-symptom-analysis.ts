@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview This file defines a Genkit flow for analyzing patient symptoms described via voice input.
@@ -16,7 +17,7 @@ const VoiceSymptomsInputSchema = z.object({
     .describe(
       "Voice data of the patient describing their symptoms, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
-  language: z.string().describe('The language in which the symptoms are described.'),
+  language: z.string().describe('The language in which the symptoms are described and in which the response should be provided.'),
 });
 export type VoiceSymptomsInput = z.infer<typeof VoiceSymptomsInputSchema>;
 
@@ -37,13 +38,11 @@ const prompt = ai.definePrompt({
   prompt: `You are a helpful AI assistant specialized in analyzing symptoms described by patients.
 
 You will receive voice data containing the patient's description of their symptoms in {{{language}}}.
-Analyze the symptoms and provide possible causes and suggested next steps.
+Analyze the symptoms and provide possible causes and suggested next steps in {{{language}}}.
 
 Voice data: {{media url=voiceDataUri}}
-Language: {{{language}}}
 
-Possible Causes:
-Suggested Next Steps: `,
+Respond with a JSON object containing possibleCauses and suggestedNextSteps.`,
 });
 
 const analyzeVoiceSymptomsFlow = ai.defineFlow(
