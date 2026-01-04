@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "doctor-avatar-1",
+      "description": "Avatar for Dr. Anjali Sharma",
+      "imageUrl": "https://images.unsplash.com/photo-1612531385446-f7e6d131e1d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkb2N0b3IlMjBwb3J0cmFpdHxlbnwwfHx8fDE3Njc0NzIxNDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "doctor portrait"
+    },
+    {
+      "id": "doctor-avatar-2",
+      "description": "Avatar for Dr. Rajesh Kumar",
+      "imageUrl": "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZG9jdG9yJTIwcHJvZmlsZXxlbnwwfHx8fDE3Njc1MTIyMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "doctor profile"
+    },
+    {
+      "id": "dashboard-hero",
+      "description": "Hero image for dashboard",
+      "imageUrl": "https://images.unsplash.com/photo-1477332552946-cfb384aeaf1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxoZWFsdGglMjB3ZWxsbmVzc3xlbnwwfHx8fDE3Njc0OTQ3MTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "health wellness"
+    }
+  ]
 }
