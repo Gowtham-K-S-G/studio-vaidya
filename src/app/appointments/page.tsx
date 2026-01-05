@@ -10,7 +10,7 @@ import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 import type { Doctor } from '@/lib/types';
 import { HospitalDetails } from '@/components/appointments/hospital-details';
-import { useCollection, useFirebase } from '@/firebase';
+import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
@@ -32,7 +32,11 @@ export default function AppointmentsPage() {
   const { toast } = useToast();
 
   const { firestore } = useFirebase();
-  const doctorsCollection = collection(firestore, 'doctors');
+  
+  const doctorsCollection = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return collection(firestore, 'doctors');
+  }, [firestore]);
 
   const { data: doctors, isLoading: isLoadingDoctors } = useCollection<Doctor>(doctorsCollection);
   
@@ -42,6 +46,7 @@ export default function AppointmentsPage() {
   const selectedDoctor = doctors?.find(d => d.id === selectedDoctorId);
 
   const handleAddDoctor = (doctorData: Omit<Doctor, 'id' | 'location' | 'avatarId'>) => {
+    if (!doctorsCollection) return;
     // In a real app, you would use a geocoding service to get lat/lng from address.
     // For now, we'll use placeholder coordinates.
     const newDoctor = {
@@ -99,4 +104,3 @@ export default function AppointmentsPage() {
     </AppLayout>
   );
 }
-
