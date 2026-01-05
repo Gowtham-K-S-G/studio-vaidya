@@ -9,6 +9,7 @@ import React,
   ReactNode,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 import { translations } from "@/lib/i18n";
 
@@ -21,6 +22,8 @@ export const languages = {
 
 type Language = keyof typeof translations;
 
+const LANGUAGE_STORAGE_KEY = "vaidya-language";
+
 interface LanguageContextType {
   language: Language;
   setLanguage: Dispatch<SetStateAction<Language>>;
@@ -32,6 +35,18 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>("English");
+
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language;
+    if (storedLanguage && translations[storedLanguage]) {
+      setLanguage(storedLanguage);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+  }, [language]);
+
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
