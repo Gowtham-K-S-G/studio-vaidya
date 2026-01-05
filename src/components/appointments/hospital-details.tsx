@@ -42,18 +42,6 @@ export function HospitalDetails({ doctor }: HospitalDetailsProps) {
             <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
             <span>{doctor.address}</span>
         </div>
-        {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && doctor.location && (
-          <div className="aspect-video w-full rounded-md overflow-hidden">
-              <iframe
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  allowFullScreen
-                  src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${doctor.location.lat},${doctor.location.lng}&zoom=15`}
-              ></iframe>
-          </div>
-        )}
       </CardContent>
     </Card>
   );
