@@ -22,6 +22,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import type { Medication } from './medication-schedule';
+import { useLanguage } from '@/context/language-context';
+import { translations } from '@/lib/i18n';
 
 const formSchema = z.object({
   name: z.string().min(1, 'Medication name is required.'),
@@ -37,6 +39,9 @@ type AddMedicationFormProps = {
 };
 
 export function AddMedicationForm({ onSubmit }: AddMedicationFormProps) {
+  const { language } = useLanguage();
+  const t = translations[language].medication.addMedication;
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,9 +60,9 @@ export function AddMedicationForm({ onSubmit }: AddMedicationFormProps) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Medication Name</FormLabel>
+              <FormLabel>{t.nameLabel}</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., Paracetamol" {...field} />
+                <Input placeholder={t.namePlaceholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,9 +73,9 @@ export function AddMedicationForm({ onSubmit }: AddMedicationFormProps) {
           name="dosage"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Dosage</FormLabel>
+              <FormLabel>{t.dosageLabel}</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., 500mg" {...field} />
+                <Input placeholder={t.dosagePlaceholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +86,7 @@ export function AddMedicationForm({ onSubmit }: AddMedicationFormProps) {
           name="time"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Time (24h format)</FormLabel>
+              <FormLabel>{t.timeLabel}</FormLabel>
               <FormControl>
                 <Input type="time" placeholder="HH:MM" {...field} />
               </FormControl>
@@ -94,11 +99,11 @@ export function AddMedicationForm({ onSubmit }: AddMedicationFormProps) {
           name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
+              <FormLabel>{t.typeLabel}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select type" />
+                    <SelectValue placeholder={t.typePlaceholder} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -113,7 +118,7 @@ export function AddMedicationForm({ onSubmit }: AddMedicationFormProps) {
           )}
         />
         <div className="flex justify-end">
-            <Button type="submit">Add Medication</Button>
+            <Button type="submit">{t.submitButton}</Button>
         </div>
       </form>
     </Form>

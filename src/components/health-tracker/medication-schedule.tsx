@@ -7,6 +7,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { format, parse } from 'date-fns';
+import { useLanguage } from "@/context/language-context";
+import { translations } from "@/lib/i18n";
 
 export type Medication = {
     id: number;
@@ -23,6 +25,8 @@ type MedicationScheduleProps = {
 };
 
 export function MedicationSchedule({ medications, setMedications }: MedicationScheduleProps) {
+    const { language } = useLanguage();
+    const t = translations[language].medication.schedule;
 
     const handleTakenChange = (id: number, taken: boolean) => {
         setMedications(meds => meds.map(med => med.id === id ? { ...med, taken } : med));
@@ -41,17 +45,17 @@ export function MedicationSchedule({ medications, setMedications }: MedicationSc
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Today's Medication</CardTitle>
-                <CardDescription>Check off your medications as you take them.</CardDescription>
+                <CardTitle>{t.title}</CardTitle>
+                <CardDescription>{t.description}</CardDescription>
             </CardHeader>
             <CardContent>
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-[50px]">Taken</TableHead>
-                            <TableHead>Medication</TableHead>
-                            <TableHead>Dosage</TableHead>
-                            <TableHead>Time</TableHead>
+                            <TableHead className="w-[50px]">{t.takenHeader}</TableHead>
+                            <TableHead>{t.medicationHeader}</TableHead>
+                            <TableHead>{t.dosageHeader}</TableHead>
+                            <TableHead>{t.timeHeader}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

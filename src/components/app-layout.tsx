@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
-  HeartPulse,
+  Pill,
   Calendar,
   FileText,
   Bot,
@@ -28,7 +28,7 @@ const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/symptom-checker", icon: Bot, label: "AI Assistant" },
   { href: "/appointments", icon: Calendar, label: "Appointments" },
-  { href: "/health-tracker", icon: HeartPulse, label: "Health Tracker" },
+  { href: "/medication", icon: Pill, label: "Medication" },
   { href: "/health-records", icon: FileText, label: "Health Records" },
 ];
 

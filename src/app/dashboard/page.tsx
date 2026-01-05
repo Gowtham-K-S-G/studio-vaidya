@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -5,7 +6,7 @@ import { AppLayout } from '@/components/app-layout';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bot, Calendar, HeartPulse, FileText, ArrowRight, Pill } from 'lucide-react';
+import { Bot, Calendar, Pill, FileText, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 
@@ -29,11 +30,11 @@ export default function DashboardPage() {
       cta: t.featureCards.appointments.cta,
     },
     {
-      icon: HeartPulse,
-      title: t.featureCards.healthTracker.title,
-      description: t.featureCards.healthTracker.description,
-      href: '/health-tracker',
-      cta: t.featureCards.healthTracker.cta,
+      icon: Pill,
+      title: t.featureCards.medication.title,
+      description: t.featureCards.medication.description,
+      href: '/medication',
+      cta: t.featureCards.medication.cta,
     },
     {
       icon: FileText,

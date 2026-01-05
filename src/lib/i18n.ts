@@ -15,10 +15,10 @@ export const translations = {
           description: 'Schedule and manage your doctor appointments.',
           cta: 'Book Now',
         },
-        healthTracker: {
-          title: 'Health Tracker',
-          description: 'Monitor your vital signs and medication schedule.',
-          cta: 'Track Health',
+        medication: {
+          title: 'Medication',
+          description: 'Monitor your medication schedule.',
+          cta: 'Manage Medication',
         },
         healthRecords: {
           title: 'Health Records',
@@ -117,12 +117,9 @@ export const translations = {
             noAppointments: "No upcoming appointments."
         }
     },
-    healthTracker: {
-        title: "Health Tracker",
+    medication: {
+        title: "Medication",
         description: "Manage your medication schedule.",
-        tabs: {
-            medication: "Medication"
-        },
         addMedication: {
             button: "Add Medication",
             title: "Add New Medication",
@@ -170,10 +167,10 @@ export const translations = {
           description: 'ನಿಮ್ಮ ವೈದ್ಯರ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ನಿಗದಿಪಡಿಸಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.',
           cta: 'ಈಗಲೇ ಬುಕ್ ಮಾಡಿ',
         },
-        healthTracker: {
-          title: 'ಆರೋಗ್ಯ ಟ್ರ್ಯಾಕರ್',
-          description: 'ನಿಮ್ಮ ಪ್ರಮುಖ ಚಿಹ್ನೆಗಳು ಮತ್ತು ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ.',
-          cta: 'ಆರೋಗ್ಯವನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ',
+        medication: {
+          title: 'ಔಷಧಿ',
+          description: 'ನಿಮ್ಮ ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ.',
+          cta: 'ಔಷಧಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
         },
         healthRecords: {
           title: 'ಆರೋಗ್ಯ ದಾಖಲೆಗಳು',
@@ -272,12 +269,9 @@ export const translations = {
             noAppointments: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ."
         }
     },
-    healthTracker: {
-        title: "ಆರೋಗ್ಯ ಟ್ರ್ಯಾಕರ್",
+    medication: {
+        title: "ಔಷಧಿ",
         description: "ನಿಮ್ಮ ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ನಿರ್ವಹಿಸಿ.",
-        tabs: {
-            medication: "ಔಷಧಿ"
-        },
         addMedication: {
             button: "ಔಷಧಿ ಸೇರಿಸಿ",
             title: "ಹೊಸ ಔಷಧಿ ಸೇರಿಸಿ",
@@ -325,10 +319,10 @@ export const translations = {
           description: 'अपने डॉक्टर के अपॉइंटमेंट्स को शेड्यूल और प्रबंधित करें।',
           cta: 'अभी बुक करें',
         },
-        healthTracker: {
-          title: 'स्वास्थ्य ट्रैकर',
-          description: 'अपने महत्वपूर्ण संकेतों और दवा अनुसूची की निगरानी करें।',
-          cta: 'स्वास्थ्य ट्रैक करें',
+        medication: {
+          title: 'दवा',
+          description: 'अपने दवा अनुसूची की निगरानी करें।',
+          cta: 'दवा प्रबंधित करें',
         },
         healthRecords: {
           title: 'स्वास्थ्य रिकॉर्ड',
@@ -427,12 +421,9 @@ export const translations = {
             noAppointments: "कोई आगामी अपॉइंटमेंट नहीं है।"
         }
     },
-    healthTracker: {
-        title: "स्वास्थ्य ट्रैकर",
+    medication: {
+        title: "दवा",
         description: "अपनी दवा अनुसूची का प्रबंधन करें।",
-        tabs: {
-            medication: "दवा"
-        },
         addMedication: {
             button: "दवा जोड़ें",
             title: "नई दवा जोड़ें",
@@ -480,10 +471,10 @@ export const translations = {
           description: 'உங்கள் மருத்துவர் சந்திப்புகளை திட்டமிட்டு நிர்வகிக்கவும்.',
           cta: 'இப்போதே பதிவு செய்யுங்கள்',
         },
-        healthTracker: {
-          title: 'சுகாதார டிராக்கர்',
-          description: 'உங்கள் முக்கிய அறிகுறிகள் மற்றும் மருந்து அட்டவணையை கண்காணிக்கவும்.',
-          cta: 'உடல்நலத்தைக் கண்காணிக்கவும்',
+        medication: {
+          title: 'மருந்து',
+          description: 'உங்கள் மருந்து அட்டவணையை கண்காணிக்கவும்.',
+          cta: 'மருந்துகளை நிர்வகிக்கவும்',
         },
         healthRecords: {
           title: 'சுகாதார பதிவுகள்',
@@ -582,12 +573,9 @@ export const translations = {
             noAppointments: "வரவிருக்கும் சந்திப்புகள் எதுவும் இல்லை."
         }
     },
-    healthTracker: {
-        title: "சுகாதார டிராக்கர்",
+    medication: {
+        title: "மருந்து",
         description: "உங்கள் மருந்து அட்டவணையை நிர்வகிக்கவும்.",
-        tabs: {
-            medication: "மருந்து"
-        },
         addMedication: {
             button: "மருந்து சேர்க்கவும்",
             title: "புதிய மருந்து சேர்க்கவும்",
