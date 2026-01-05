@@ -34,7 +34,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { useFirebase } from '@/firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, writeBatch } from 'firebase/firestore';
 import {
   Select,
   SelectContent,
@@ -78,29 +78,44 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     }
   });
 
-  function createNotification(doctor: Doctor, values: FormValues) {
-    if (!firestore) return Promise.reject("Firestore not available");
+  function createNotifications(doctor: Doctor, patientName: string, values: FormValues) {
+    if (!firestore || !user) return Promise.reject("Firestore not available or user not logged in");
 
+    const batch = writeBatch(firestore);
     const notificationsCollection = collection(firestore, 'notifications');
-    const notification = {
-        // In a real app, you'd have a userId for the doctor
+    
+    // Notification for the Doctor
+    const doctorNotification = {
         userId: doctor.id, 
         title: "New Appointment Booked",
-        message: `A new appointment has been booked with you by a patient for ${format(values.date, "PPP")} at ${values.timeSlot}.`,
+        message: `A new appointment has been booked with you by ${patientName} for ${format(values.date, "PPP")} at ${values.timeSlot}.`,
         createdAt: serverTimestamp(),
         isRead: false,
     };
+    const doctorNotifRef = doc(notificationsCollection);
+    batch.set(doctorNotifRef, doctorNotification);
+
+    // Notification for the Patient
+    const patientNotification = {
+        userId: user.uid,
+        title: "Appointment Confirmed",
+        message: `Your appointment with Dr. ${doctor.name} is confirmed for ${format(values.date, "PPP")} at ${values.timeSlot}.`,
+        createdAt: serverTimestamp(),
+        isRead: false,
+    };
+    const patientNotifRef = doc(notificationsCollection);
+    batch.set(patientNotifRef, patientNotification);
     
-    // Return the promise chain
-    return addDoc(notificationsCollection, notification).catch(error => {
-      console.error("Error creating notification:", error);
+    // Return the promise for the batch commit
+    return batch.commit().catch(error => {
+      console.error("Error creating notifications:", error);
+      // Create a single representative error for logging/display
       const permissionError = new FirestorePermissionError({
         path: notificationsCollection.path,
         operation: 'create',
-        requestResourceData: notification,
+        requestResourceData: [doctorNotification, patientNotification], // Or just one for simplicity
       });
       errorEmitter.emit('permission-error', permissionError);
-      // Propagate the error to the calling function's catch block
       throw permissionError; 
     });
   }
@@ -110,18 +125,21 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     setIsLoading(true);
     
     const doctor = doctors.find(d => d.id === values.doctorId);
-    if (!doctor) {
+    if (!doctor || !user) {
         setIsLoading(false);
         toast({
             variant: "destructive",
             title: "Error",
-            description: "Selected doctor not found.",
+            description: "Selected doctor not found or user not signed in.",
         });
         return;
     }
 
+    // Assuming user's name can be retrieved from displayName or email
+    const patientName = user.displayName || user.email || 'A patient';
+
     try {
-        await createNotification(doctor, values);
+        await createNotifications(doctor, patientName, values);
         
         toast({
             title: t.successTitle,
@@ -132,15 +150,13 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
         });
         toast({
             title: "Notification Sent",
-            description: `Dr. ${doctor.name} has been notified of the appointment.`
+            description: `You and Dr. ${doctor.name} have been notified of the appointment.`
         });
         form.reset({ doctorId: values.doctorId });
         form.setValue('doctorId', values.doctorId);
 
     } catch (error) {
         console.error("Failed to book appointment or send notification:", error);
-        // The toast for permission errors will be handled by the global error listener
-        // so we only show a generic toast for other kinds of errors.
         if (!(error instanceof FirestorePermissionError)) {
           toast({
               variant: "destructive",
@@ -198,73 +214,71 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
                 )}
               />
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>{t.dateLabel}</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full justify-start text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date < new Date(new Date().setHours(0,0,0,0))
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="timeSlot"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t.timeSlotLabel}</FormLabel>
-                        <FormControl>
-                           <div className="grid grid-cols-2 gap-2 pt-2">
-                              {timeSlots.map(slot => (
-                                  <Button
-                                      key={slot}
-                                      type="button"
-                                      variant={field.value === slot ? 'default' : 'outline'}
-                                      onClick={() => field.onChange(slot)}
-                                  >
-                                      {slot}
-                                  </Button>
-                              ))}
-                          </div>
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>{t.dateLabel}</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-            </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date(new Date().setHours(0,0,0,0))
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="timeSlot"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t.timeSlotLabel}</FormLabel>
+                    <FormControl>
+                        <div className="grid grid-cols-2 gap-2 pt-2">
+                          {timeSlots.map(slot => (
+                              <Button
+                                  key={slot}
+                                  type="button"
+                                  variant={field.value === slot ? 'default' : 'outline'}
+                                  onClick={() => field.onChange(slot)}
+                              >
+                                  {slot}
+                              </Button>
+                          ))}
+                      </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading} className="w-full">
