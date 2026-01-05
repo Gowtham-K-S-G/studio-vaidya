@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -8,8 +9,21 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Calendar, Clock, Hospital } from "lucide-react";
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 
-const appointments = [
+
+const initialAppointments = [
     {
         id: '1',
         doctorName: 'Dr. Anjali Sharma',
@@ -33,9 +47,22 @@ const appointments = [
 export function UpcomingAppointments() {
     const { language } = useLanguage();
     const t = translations[language].appointments.upcoming;
+    const { toast } = useToast();
+    const [appointments, setAppointments] = useState(initialAppointments);
+    
     const getAvatarUrl = (avatarId: string) => {
         return PlaceHolderImages.find(img => img.id === avatarId)?.imageUrl || '';
     }
+
+    const handleCancelAppointment = (appointmentId: string) => {
+        setAppointments(currentAppointments =>
+            currentAppointments.filter(apt => apt.id !== appointmentId)
+        );
+        toast({
+            title: "Appointment Cancelled",
+            description: "The appointment has been removed from your schedule.",
+        });
+    };
 
     return (
         <Card>
@@ -61,7 +88,25 @@ export function UpcomingAppointments() {
                                 <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {apt.time}</span>
                             </div>
                         </div>
-                        <Button variant="ghost" size="sm">{t.cancelButton}</Button>
+                         <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="sm">{t.cancelButton}</Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you sure you want to cancel?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently remove the appointment from your schedule.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Back</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleCancelAppointment(apt.id)}>
+                                Yes, Cancel
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                     </Card>
                 )) : (
                     <p className="text-center text-muted-foreground py-8">{t.noAppointments}</p>
