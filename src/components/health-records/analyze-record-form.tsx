@@ -24,11 +24,12 @@ import {
 } from '@/components/ui/form';
 import { analyzeHealthRecord } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Upload, AlertTriangle, FileText, Download, List, Stethoscope, FlaskConical } from 'lucide-react';
+import { Bot, Loader2, Upload, AlertTriangle, FileText, Download, List, Stethoscope, FlaskConical, User } from 'lucide-react';
 import type { AnalyzeHealthRecordOutput } from '@/ai/flows/analyze-health-record';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 import { Badge } from '../ui/badge';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 
 const formSchema = z.object({
   file: z.any().refine(
@@ -134,6 +135,11 @@ Suggested Specialist:
 -----------------------
 ${result.suggestedSpecialist}
 
+${result.suggestedDoctors && result.suggestedDoctors.length > 0 ? `
+Suggested Doctors in Karnataka:
+---------------------------------
+${result.suggestedDoctors.map(doc => `- Dr. ${doc.name}, ${doc.specialty} at ${doc.hospital}`).join('\n')}
+` : ''}
 
 Disclaimer:
 -----------
@@ -244,6 +250,25 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
                     <h4 className="font-semibold mb-1 flex items-center"><Stethoscope className="mr-2 h-4 w-4"/>Suggested Specialist</h4>
                     <Badge variant="outline">{result.suggestedSpecialist}</Badge>
                 </div>
+
+                {result.suggestedDoctors && result.suggestedDoctors.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold mb-2 flex items-center"><User className="mr-2 h-4 w-4"/>Suggested Doctors in Karnataka</h4>
+                    <div className="grid gap-4">
+                      {result.suggestedDoctors.map((doctor, index) => (
+                        <div key={index} className="flex items-center gap-4 rounded-md border bg-background p-3">
+                          <Avatar>
+                            <AvatarFallback>{doctor.name.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-semibold">{doctor.name}</p>
+                            <p className="text-muted-foreground text-xs">{doctor.hospital}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
             </div>
 
             <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
