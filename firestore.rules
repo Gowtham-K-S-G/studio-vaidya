@@ -31,5 +31,11 @@ service cloud.firestore {
       allow create: if true; 
       allow update, delete: if false; // Or add admin logic here
     }
+
+    match /notifications/{notificationId} {
+      // Temporarily allow anyone to create a notification for testing.
+      allow create: if true;
+      allow read, write: if isSignedIn() && isOwner(resource.data.userId);
+    }
   }
 }

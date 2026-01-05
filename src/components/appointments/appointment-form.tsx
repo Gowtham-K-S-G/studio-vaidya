@@ -16,13 +16,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   Form,
   FormControl,
   FormField,
@@ -42,6 +35,15 @@ import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { useFirebase } from '@/firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 export const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
 
@@ -76,8 +78,8 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     }
   });
 
-  async function createNotification(doctor: Doctor, values: FormValues) {
-    if (!firestore) return;
+  function createNotification(doctor: Doctor, values: FormValues) {
+    if (!firestore) return Promise.reject("Firestore not available");
 
     const notificationsCollection = collection(firestore, 'notifications');
     const notification = {
@@ -88,7 +90,19 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
         createdAt: serverTimestamp(),
         isRead: false,
     };
-    await addDoc(notificationsCollection, notification);
+    
+    // Return the promise chain
+    return addDoc(notificationsCollection, notification).catch(error => {
+      console.error("Error creating notification:", error);
+      const permissionError = new FirestorePermissionError({
+        path: notificationsCollection.path,
+        operation: 'create',
+        requestResourceData: notification,
+      });
+      errorEmitter.emit('permission-error', permissionError);
+      // Propagate the error to the calling function's catch block
+      throw permissionError; 
+    });
   }
 
 
@@ -125,11 +139,15 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
 
     } catch (error) {
         console.error("Failed to book appointment or send notification:", error);
-        toast({
-            variant: "destructive",
-            title: "Booking Failed",
-            description: "Could not complete the appointment booking. Please try again."
-        });
+        // The toast for permission errors will be handled by the global error listener
+        // so we only show a generic toast for other kinds of errors.
+        if (!(error instanceof FirestorePermissionError)) {
+          toast({
+              variant: "destructive",
+              title: "Booking Failed",
+              description: "Could not complete the appointment booking. Please try again."
+          });
+        }
     } finally {
         setIsLoading(false);
     }
@@ -193,16 +211,16 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-full pl-3 text-left font-normal",
+                                "w-full justify-start text-left font-normal",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
                               {field.value ? (
                                 format(field.value, "PPP")
                               ) : (
                                 <span>Pick a date</span>
                               )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
