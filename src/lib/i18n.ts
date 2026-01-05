@@ -92,6 +92,29 @@ export const translations = {
           text: 'This is a preliminary analysis and not a substitute for professional medical advice. Please consult a doctor for an accurate diagnosis.',
         },
       },
+    },
+    appointments: {
+        title: "Manage Appointments",
+        description: "Book new appointments and view your upcoming schedule."
+    },
+    healthTracker: {
+        title: "Health Tracker",
+        description: "Monitor your vital signs and manage your medication schedule.",
+        tabs: {
+            medication: "Medication",
+            vitals: "Vitals"
+        },
+        addMedication: {
+            button: "Add Medication",
+            title: "Add New Medication",
+            description: "Fill in the details of your new medication."
+        }
+    },
+    healthRecords: {
+        title: "Health Records",
+        description: "Access your complete medical history.",
+        cardTitle: "Your Medical Records",
+        cardDescription: "A log of your past consultations and reports."
     }
   },
   Kannada: {
@@ -188,6 +211,29 @@ export const translations = {
             },
         },
     },
+    appointments: {
+        title: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
+        description: "ಹೊಸ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಬುಕ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಮುಂಬರುವ ವೇಳಾಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸಿ."
+    },
+    healthTracker: {
+        title: "ಆರೋಗ್ಯ ಟ್ರ್ಯಾಕರ್",
+        description: "ನಿಮ್ಮ ಪ್ರಮುಖ ಚಿಹ್ನೆಗಳನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ನಿರ್ವಹಿಸಿ.",
+        tabs: {
+            medication: "ಔಷಧಿ",
+            vitals: "ಪ್ರಮುಖಗಳು"
+        },
+        addMedication: {
+            button: "ಔಷಧಿ ಸೇರಿಸಿ",
+            title: "ಹೊಸ ಔಷಧಿ ಸೇರಿಸಿ",
+            description: "ನಿಮ್ಮ ಹೊಸ ಔಷಧಿಯ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ."
+        }
+    },
+    healthRecords: {
+        title: "ಆರೋಗ್ಯ ದಾಖಲೆಗಳು",
+        description: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ವೈದ್ಯಕೀಯ ಇತಿಹಾಸವನ್ನು ಪ್ರವೇಶಿಸಿ.",
+        cardTitle: "ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳು",
+        cardDescription: "ನಿಮ್ಮ ಹಿಂದಿನ ಸಮಾಲೋಚನೆಗಳು ಮತ್ತು ವರದಿಗಳ ಒಂದು ಲಾಗ್."
+    }
   },
   Hindi: {
     dashboard: {
@@ -283,6 +329,29 @@ export const translations = {
             },
         },
     },
+    appointments: {
+        title: "अपॉइंटमेंट प्रबंधित करें",
+        description: "नए अपॉइंटमेंट बुक करें और अपना आगामी शेड्यूल देखें।"
+    },
+    healthTracker: {
+        title: "स्वास्थ्य ट्रैकर",
+        description: "अपने महत्वपूर्ण संकेतों की निगरानी करें और अपनी दवा अनुसूची का प्रबंधन करें।",
+        tabs: {
+            medication: "दवा",
+            vitals: "महत्वपूर्ण"
+        },
+        addMedication: {
+            button: "दवा जोड़ें",
+            title: "नई दवा जोड़ें",
+            description: "अपनी नई दवा का विवरण भरें।"
+        }
+    },
+    healthRecords: {
+        title: "स्वास्थ्य रिकॉर्ड",
+        description: "अपने संपूर्ण चिकित्सा इतिहास तक पहुँचें।",
+        cardTitle: "आपके मेडिकल रिकॉर्ड",
+        cardDescription: "आपके पिछले परामर्शों और रिपोर्टों का एक लॉग।"
+    }
   },
   Tamil: {
     dashboard: {
@@ -378,5 +447,28 @@ export const translations = {
             },
         },
     },
+    appointments: {
+        title: "சந்திப்புகளை நிர்வகிக்கவும்",
+        description: "புதிய சந்திப்புகளை பதிவுசெய்து உங்கள் வரவிருக்கும் அட்டவணையைப் பார்க்கவும்."
+    },
+    healthTracker: {
+        title: "சுகாதார டிராக்கர்",
+        description: "உங்கள் முக்கிய அறிகுறிகளைக் கண்காணித்து, உங்கள் மருந்து அட்டவணையை நிர்வகிக்கவும்.",
+        tabs: {
+            medication: "மருந்து",
+            vitals: "முக்கியமானவை"
+        },
+        addMedication: {
+            button: "மருந்து சேர்க்கவும்",
+            title: "புதிய மருந்து சேர்க்கவும்",
+            description: "உங்கள் புதிய மருந்தின் விவரங்களை நிரப்பவும்."
+        }
+    },
+    healthRecords: {
+        title: "சுகாதார பதிவுகள்",
+        description: "உங்கள் முழுமையான மருத்துவ வரலாற்றை அணுகவும்.",
+        cardTitle: "உங்கள் மருத்துவ பதிவுகள்",
+        cardDescription: "உங்கள் கடந்தகால ஆலோசனைகள் மற்றும் அறிக்கைகளின் ஒரு பதிவு."
+    }
   },
 };
