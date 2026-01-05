@@ -20,11 +20,6 @@ export const translations = {
           description: 'Monitor your medication schedule.',
           cta: 'Manage Medication',
         },
-        healthRecords: {
-          title: 'Health Records',
-          description: 'Access your complete medical history securely.',
-          cta: 'View Records',
-        },
       },
       reminders: {
         title: 'Notifications',
@@ -170,30 +165,6 @@ export const translations = {
             timeHeader: "Time"
         }
     },
-    healthRecords: {
-        title: "Health Records",
-        description: "Access and analyze your medical history.",
-        cardTitle: "Your Medical Records",
-        cardDescription: "A log of your past consultations and reports.",
-        notesLabel: "Consultation Notes:",
-        reportsLabel: "Attached Reports:",
-        downloadButton: "Download",
-        analysis: {
-          title: "Analyze a Health Record",
-          description: "Upload an image or PDF of a health report for an AI-powered analysis.",
-          uploadArea: "Click to upload or drag and drop a file",
-          analyzeButton: "Analyze Record",
-          analyzingButton: "Analyzing...",
-          resultTitle: "AI Analysis Result",
-          diagnosisLabel: "Preliminary Diagnosis",
-          medicationLabel: "Suggested Medication",
-          downloadReportButton: "Download Report",
-           disclaimer: {
-                title: 'Disclaimer',
-                text: 'This is a preliminary analysis and not a substitute for professional medical advice. Please consult a doctor for an accurate diagnosis.',
-            },
-        }
-    }
   },
   Kannada: {
     dashboard: {
@@ -214,11 +185,6 @@ export const translations = {
           title: 'ಔಷಧಿ',
           description: 'ನಿಮ್ಮ ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ।',
           cta: 'ಔಷಧಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
-        },
-        healthRecords: {
-          title: 'ಆರೋಗ್ಯ ದಾಖಲೆಗಳು',
-          description: 'ನಿಮ್ಮ ಸಂಪೂರ್ಣ ವೈದ್ಯಕೀಯ ಇತಿಹಾಸವನ್ನು ಸುರಕ್ಷಿತವಾಗಿ ಪ್ರವೇಶಿಸಿ।',
-          cta: 'ದಾಖಲೆಗಳನ್ನು ವೀಕ್ಷಿಸಿ',
         },
       },
       reminders: {
@@ -281,7 +247,7 @@ export const translations = {
             languageLabel: 'ಪ್ರತಿಕ್ರಿಯೆ ಭಾಷೆ',
             languagePlaceholder: 'ಒಂದು ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
             startRecording: 'ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಾರಂಭಿಸಲು ಮೈಕ್ರೊಫೋನ್ ಒತ್ತಿರಿ',
-            recording: 'ರೆಕಾರ್ಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ... ನಿಲ್ಲಿಸಲು ಮತ್ತೆ ಒತ್ತಿರಿ।',
+            recording: 'ರೆಕార్ಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ... ನಿಲ್ಲಿಸಲು ಮತ್ತೆ ಒತ್ತಿರಿ।',
             analyzing: 'ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್ ಅನ್ನು ವಿಶ್ಲೇษಿಸಲಾಗುತ್ತಿದೆ...',
             resultTitle: "AI ಯ ಧ್ವನಿ ವಿಶ್ಲೇಷಣೆ",
             possibleCausesLabel: 'ಸಂಭವನೀಯ ಕಾರಣಗಳು',
@@ -295,7 +261,7 @@ export const translations = {
     },
     appointments: {
         title: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
-        description: "ಹೊಸ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಬುಕ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಮುಂಬರುವ ವೇಳಾಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸಿ।",
+        description: "ಹೊಸ ಅಪಾಯಿंಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಬುಕ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಮುಂಬರುವ ವೇಳಾಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸಿ।",
         addDoctor: {
             button: "ವೈದ್ಯರನ್ನು ಸೇರಿಸಿ",
             title: "ಹೊಸ ವೈದ್ಯರನ್ನು ಸೇರಿಸಿ",
@@ -315,23 +281,23 @@ export const translations = {
             successDescription: "ಡಾ। {doctorName} ಅವರನ್ನು ನಿಮ್ಮ ಪಟ್ಟಿಗೆ ಸೇರಿಸಲಾಗಿದೆ।",
         },
         form: {
-            title: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಿ",
+            title: "ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಿ",
             description: "ನಿಮಗೆ ಸರಿಹೊಂದುವ ವೈದ್ಯರನ್ನು ಮತ್ತು ಸಮಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ।",
             doctorLabel: "ವೈದ್ಯರು",
             doctorPlaceholder: "ವೈದ್ಯರನ್ನು ಆಯ್ಕೆಮಾಡಿ",
             dateLabel: "ದಿನಾಂಕ",
             timeSlotLabel: "ಸಮಯ ಸ್ಲಾಟ್",
             timeSlotPlaceholder: "ಸಮಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
-            button: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಖಚಿತಪಡಿಸಿ",
+            button: "ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ ಖಚಿತಪಡಿಸಿ",
             loadingButton: "ಬುಕಿಂಗ್...",
-            successTitle: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಲಾಗಿದೆ!",
-            successDescription: "{doctorName} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ {date} ರಂದು {timeSlot} ಕ್ಕೆ ಖಚಿತಗೊಂಡಿದೆ।"
+            successTitle: "ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಲಾಗಿದೆ!",
+            successDescription: "{doctorName} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ {date} ರಂದು {timeSlot} ಕ್ಕೆ ಖಚಿತಗೊಂಡಿದೆ।"
         },
         upcoming: {
-            title: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು",
+            title: "ಮುಂಬರುವ ಅಪಾಯಿంಟ್‌ಮೆಂಟ್‌ಗಳು",
             description: "ನಿಮ್ಮ ನಿಗದಿತ ಸಮಾಲೋಚನೆಗಳು ಇಲ್ಲಿವೆ।",
             cancelButton: "ರದ್ದುಮಾಡಿ",
-            noAppointments: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ।"
+            noAppointments: "ಮುಂಬರುವ ಅಪಾಯಿంಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ।"
         },
         details: {
           hospital: "ಆಸ್ಪತ್ರೆ",
@@ -365,30 +331,6 @@ export const translations = {
             timeHeader: "ಸಮಯ"
         }
     },
-    healthRecords: {
-        title: "ಆರೋಗ್ಯ ದಾಖಲೆಗಳು",
-        description: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ವೈದ್ಯಕೀಯ ಇತಿಹಾಸವನ್ನು ಪ್ರವೇಶಿಸಿ ಮತ್ತು ವಿಶ್ಲೇಷಿಸಿ।",
-        cardTitle: "ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳು",
-        cardDescription: "ನಿಮ್ಮ ಹಿಂದಿನ ಸಮಾಲೋಚನೆಗಳು ಮತ್ತು ವರದಿಗಳ ಒಂದು ಲಾಗ್।",
-        notesLabel: "ಸಮಾಲೋಚನೆ ಟಿಪ್ಪಣಿಗಳು:",
-        reportsLabel: "ಲಗತ್ತಿಸಲಾದ ವರದಿಗಳು:",
-        downloadButton: "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
-        analysis: {
-          title: "ಆರೋಗ್ಯ ದಾಖಲೆಯನ್ನು ವಿಶ್ಲೇಷಿಸಿ",
-          description: "AI-ಚಾಲಿತ ವಿಶ್ಲೇಷಣೆಗಾಗಿ ಆರೋಗ್ಯ ವರದಿಯ ಚಿತ್ರ ಅಥವಾ PDF ಅನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ।",
-          uploadArea: "ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ ಅಥವಾ ಎಳೆದು ತನ್ನಿ",
-          analyzeButton: "ದಾಖಲೆಯನ್ನು ವಿಶ್ಲೇಷಿಸಿ",
-          analyzingButton: "ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
-          resultTitle: "AI ವಿಶ್ಲೇಷಣೆ ಫಲಿತಾಂಶ",
-          diagnosisLabel: "ಪ್ರಾಥಮಿಕ ರೋಗನಿರ್ಣಯ",
-          medicationLabel: "ಸೂಚಿಸಲಾದ ಔಷಧಿ",
-          downloadReportButton: "ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
-           disclaimer: {
-                title: 'ಹಕ್ಕು ನಿರಾಕರಣೆ',
-                text: 'ಇದು ಪ್ರಾಥಮಿಕ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ ಮತ್ತು ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಲಹೆಗೆ ಬದಲಿಯಾಗಿಲ್ಲ। ದಯವಿಟ್ಟು ನಿಖರವಾದ ರೋಗನಿರ್ಣಯಕ್ಕಾಗಿ ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ।',
-            },
-        }
-    }
   },
   Hindi: {
     dashboard: {
@@ -409,11 +351,6 @@ export const translations = {
           title: 'दवा',
           description: 'अपने दवा अनुसूची की निगरानी करें।',
           cta: 'दवा प्रबंधित करें',
-        },
-        healthRecords: {
-          title: 'स्वास्थ्य रिकॉर्ड',
-          description: 'अपने संपूर्ण चिकित्सा इतिहास को सुरक्षित रूप से एक्सेस करें।',
-          cta: 'रिकॉर्ड देखें',
         },
       },
       reminders: {
@@ -560,30 +497,6 @@ export const translations = {
             timeHeader: "समय"
         }
     },
-    healthRecords: {
-        title: "स्वास्थ्य रिकॉर्ड",
-        description: "अपने संपूर्ण चिकित्सा इतिहास तक पहुँचें और उसका विश्लेषण करें।",
-        cardTitle: "आपके मेडिकल रिकॉर्ड",
-        cardDescription: "आपके पिछले परामर्शों और रिपोर्टों का एक लॉग।",
-        notesLabel: "परामर्श नोट्स:",
-        reportsLabel: "संलग्न रिपोर्ट:",
-        downloadButton: "डाउनलोड करें",
-        analysis: {
-          title: "स्वास्थ्य रिकॉर्ड का विश्लेषण करें",
-          description: "एआई-संचालित विश्लेषण के लिए स्वास्थ्य रिपोर्ट की एक छवि या पीडीएफ अपलोड करें।",
-          uploadArea: "फ़ाइल अपलोड करने के लिए क्लिक करें या खींचें और छोड़ें",
-          analyzeButton: "रिकॉर्ड का विश्लेषण करें",
-          analyzingButton: "विश्लेषण हो रहा है...",
-          resultTitle: "एआई विश्लेषण परिणाम",
-          diagnosisLabel: "प्रारंभिक निदान",
-          medicationLabel: "सुझाई गई दवा",
-          downloadReportButton: "रिपोर्ट डाउनलोड करें",
-           disclaimer: {
-                title: 'अस्वीकरण',
-                text: 'यह एक प्रारंभिक विश्लेषण है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है। कृपया सटीक निदान के लिए डॉक्टर से परामर्श करें।',
-            },
-        }
-    }
   },
   Tamil: {
     dashboard: {
@@ -604,11 +517,6 @@ export const translations = {
           title: 'மருந்து',
           description: 'உங்கள் மருந்து அட்டவணையை கண்காணிக்கவும்।',
           cta: 'மருந்துகளை நிர்வகிக்கவும்',
-        },
-        healthRecords: {
-          title: 'சுகாதார பதிவுகள்',
-          description: 'உங்கள் முழுமையான மருத்துவ வரலாற்றை பாதுகாப்பாக அணுகவும்।',
-          cta: 'பதிவுகளைக் காண்க',
         },
       },
       reminders: {
@@ -679,7 +587,7 @@ export const translations = {
             downloadButton: 'அறிக்கையைப் பதிவிறக்கவும்',
             disclaimer: {
                 title: 'பொறுப்புத் துறப்பு',
-                text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',
+                text: 'இது ஒரு முதன்மை பகுாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',
             },
         },
     },
@@ -755,29 +663,5 @@ export const translations = {
             timeHeader: "நேரம்"
         }
     },
-    healthRecords: {
-        title: "சுகாதார பதிவுகள்",
-        description: "உங்கள் முழுமையான மருத்துவ வரலாற்றை அணுகி பகுப்பாய்வு செய்யுங்கள்।",
-        cardTitle: "உங்கள் மருத்துவ பதிவுகள்",
-        cardDescription: "உங்கள் கடந்தகால ஆலோசனைகள் மற்றும் அறிக்கைகளின் ஒரு பதிவு।",
-        notesLabel: "ஆலோசனை குறிப்புகள்:",
-        reportsLabel: "இணைக்கப்பட்ட அறிக்கைகள்:",
-        downloadButton: "பதிவிறக்கவும்",
-        analysis: {
-          title: "சுகாதார பதிவை பகுப்பாய்வு செய்யுங்கள்",
-          description: "AI-இயங்கும் பகுப்பாய்விற்காக சுகாதார அறிக்கையின் படம் அல்லது PDF ஐ பதிவேற்றவும்।",
-          uploadArea: "கோப்பைப் பதிவேற்ற கிளிக் செய்யவும் அல்லது இழுத்து விடவும்",
-          analyzeButton: "பதிவை பகுப்பாய்வு செய்யவும்",
-          analyzingButton: "பகுப்பாய்வு செய்யப்படுகிறது...",
-          resultTitle: "AI பகுப்பாய்வு முடிவு",
-          diagnosisLabel: "முதன்மை நோயறிதல்",
-          medicationLabel: "பரிந்துரைக்கப்பட்ட மருந்து",
-          downloadReportButton: "அறிக்கையைப் பதிவிறக்கவும்",
-           disclaimer: {
-                title: 'பொறுப்புத் துறப்பு',
-                text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',
-            },
-        }
-    }
   },
 };
