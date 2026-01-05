@@ -30,6 +30,7 @@ const navItems = [
   { href: "/symptom-checker", icon: Bot, label: "AI Assistant" },
   { href: "/appointments", icon: Calendar, label: "Appointments" },
   { href: "/medication", icon: Pill, label: "Medication" },
+  { href: "/health-report", icon: FileText, label: "Health Report" },
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {

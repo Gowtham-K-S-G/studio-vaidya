@@ -20,6 +20,11 @@ export const translations = {
           description: 'Monitor your medication schedule.',
           cta: 'Manage Medication',
         },
+        healthReport: {
+          title: 'Health Report Analysis',
+          description: 'Upload a report for AI-powered analysis.',
+          cta: 'Analyze Report',
+        },
       },
       reminders: {
         title: 'Notifications',
@@ -165,6 +170,21 @@ export const translations = {
             timeHeader: "Time"
         }
     },
+    healthReport: {
+      title: 'Health Report Analysis',
+      description: 'Upload a health report (image or PDF) for an AI-powered analysis.',
+      uploadArea: 'Click to upload or drag and drop a file (Image or PDF)',
+      analyzeButton: 'Analyze Report',
+      analyzingButton: 'Analyzing...',
+      resultTitle: "AI's Report Analysis",
+      analysisLabel: 'Analysis',
+      medicationLabel: 'Suggested Medication',
+      downloadButton: 'Download Analysis',
+      disclaimer: {
+          title: 'Disclaimer',
+          text: 'This analysis is AI-generated based on the uploaded report and is not a substitute for professional medical advice. Consult with your doctor to verify the information and before taking any new medication.',
+      },
+    }
   },
   Kannada: {
     dashboard: {
@@ -186,6 +206,11 @@ export const translations = {
           description: 'ನಿಮ್ಮ ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ।',
           cta: 'ಔಷಧಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
         },
+        healthReport: {
+          title: 'ಆರೋಗ್ಯ ವರದಿ ವಿಶ್ಲೇಷಣೆ',
+          description: 'AI-ಚಾಲಿತ ವಿಶ್ಲೇಷಣೆಗಾಗಿ ವರದಿಯನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ।',
+          cta: 'ವರದಿಯನ್ನು ವಿಶ್ಲೇಷಿಸಿ',
+        },
       },
       reminders: {
         title: 'ಸೂಚನೆಗಳು',
@@ -202,7 +227,7 @@ export const translations = {
             tabs: {
                 text: 'ಪಠ್ಯ',
                 image: 'ಚಿತ್ರ',
-                voice: 'ಧ್वನಿ',
+                voice: 'ಧ್ವನಿ',
             },
         },
         text: {
@@ -247,7 +272,7 @@ export const translations = {
             languageLabel: 'ಪ್ರತಿಕ್ರಿಯೆ ಭಾಷೆ',
             languagePlaceholder: 'ಒಂದು ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
             startRecording: 'ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಾರಂಭಿಸಲು ಮೈಕ್ರೊಫೋನ್ ಒತ್ತಿರಿ',
-            recording: 'ರೆಕార్ಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ... ನಿಲ್ಲಿಸಲು ಮತ್ತೆ ಒತ್ತಿರಿ।',
+            recording: 'ರೆಕಾರ್ಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ... ನಿಲ್ಲಿಸಲು ಮತ್ತೆ ಒತ್ತಿರಿ।',
             analyzing: 'ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್ ಅನ್ನು ವಿಶ್ಲೇษಿಸಲಾಗುತ್ತಿದೆ...',
             resultTitle: "AI ಯ ಧ್ವನಿ ವಿಶ್ಲೇಷಣೆ",
             possibleCausesLabel: 'ಸಂಭವನೀಯ ಕಾರಣಗಳು',
@@ -261,7 +286,7 @@ export const translations = {
     },
     appointments: {
         title: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
-        description: "ಹೊಸ ಅಪಾಯಿंಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಬುಕ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಮುಂಬರುವ ವೇಳಾಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸಿ।",
+        description: "ಹೊಸ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಬುಕ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಮುಂಬರುವ ವೇಳಾಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸಿ।",
         addDoctor: {
             button: "ವೈದ್ಯರನ್ನು ಸೇರಿಸಿ",
             title: "ಹೊಸ ವೈದ್ಯರನ್ನು ಸೇರಿಸಿ",
@@ -281,23 +306,23 @@ export const translations = {
             successDescription: "ಡಾ। {doctorName} ಅವರನ್ನು ನಿಮ್ಮ ಪಟ್ಟಿಗೆ ಸೇರಿಸಲಾಗಿದೆ।",
         },
         form: {
-            title: "ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಿ",
+            title: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಿ",
             description: "ನಿಮಗೆ ಸರಿಹೊಂದುವ ವೈದ್ಯರನ್ನು ಮತ್ತು ಸಮಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ।",
             doctorLabel: "ವೈದ್ಯರು",
             doctorPlaceholder: "ವೈದ್ಯರನ್ನು ಆಯ್ಕೆಮಾಡಿ",
             dateLabel: "ದಿನಾಂಕ",
             timeSlotLabel: "ಸಮಯ ಸ್ಲಾಟ್",
             timeSlotPlaceholder: "ಸಮಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
-            button: "ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ ಖಚಿತಪಡಿಸಿ",
+            button: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಖಚಿತಪಡಿಸಿ",
             loadingButton: "ಬುಕಿಂಗ್...",
-            successTitle: "ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಲಾಗಿದೆ!",
-            successDescription: "{doctorName} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಅಪಾಯಿంಟ್‌ಮೆಂಟ್ {date} ರಂದು {timeSlot} ಕ್ಕೆ ಖಚಿತಗೊಂಡಿದೆ।"
+            successTitle: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಲಾಗಿದೆ!",
+            successDescription: "{doctorName} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ {date} ರಂದು {timeSlot} ಕ್ಕೆ ಖಚಿತಗೊಂಡಿದೆ।"
         },
         upcoming: {
-            title: "ಮುಂಬರುವ ಅಪಾಯಿంಟ್‌ಮೆಂಟ್‌ಗಳು",
+            title: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು",
             description: "ನಿಮ್ಮ ನಿಗದಿತ ಸಮಾಲೋಚನೆಗಳು ಇಲ್ಲಿವೆ।",
             cancelButton: "ರದ್ದುಮಾಡಿ",
-            noAppointments: "ಮುಂಬರುವ ಅಪಾಯಿంಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ।"
+            noAppointments: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ।"
         },
         details: {
           hospital: "ಆಸ್ಪತ್ರೆ",
@@ -331,6 +356,21 @@ export const translations = {
             timeHeader: "ಸಮಯ"
         }
     },
+    healthReport: {
+      title: 'ಆರೋಗ್ಯ ವರದಿ ವಿಶ್ಲೇಷಣೆ',
+      description: 'AI-ಚಾಲಿತ ವಿಶ್ಲೇಷಣೆಗಾಗಿ ಆರೋಗ್ಯ ವರದಿಯನ್ನು (ಚಿತ್ರ ಅಥವಾ PDF) ಅಪ್‌ಲೋಡ್ ಮಾಡಿ।',
+      uploadArea: 'ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ ಅಥವಾ ಫೈಲ್ ಅನ್ನು ಎಳೆಯಿರಿ (ಚಿತ್ರ ಅಥವಾ PDF)',
+      analyzeButton: 'ವರದಿಯನ್ನು ವಿಶ್ಲೇಷಿಸಿ',
+      analyzingButton: 'ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...',
+      resultTitle: "AI ಯ ವರದಿ ವಿಶ್ಲೇಷಣೆ",
+      analysisLabel: 'ವಿಶ್ಲೇಷಣೆ',
+      medicationLabel: 'ಸೂಚಿಸಲಾದ ಔಷಧಿ',
+      downloadButton: 'ವಿಶ್ಲೇಷಣೆಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
+      disclaimer: {
+        title: 'ಹಕ್ಕು ನಿರಾಕರಣೆ',
+        text: 'ಈ ವಿಶ್ಲೇಷಣೆಯು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವರದಿಯ ಆಧಾರದ ಮೇಲೆ AI-உருவாக்கப்பட்டது மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தகவலைச் சரிபார்க்க உங்கள் மருத்துவரை அணுகவும் மற்றும் புதிய மருந்தை எடுத்துக்கொள்வதற்கு முன்।',
+      },
+    },
   },
   Hindi: {
     dashboard: {
@@ -351,6 +391,11 @@ export const translations = {
           title: 'दवा',
           description: 'अपने दवा अनुसूची की निगरानी करें।',
           cta: 'दवा प्रबंधित करें',
+        },
+        healthReport: {
+          title: 'स्वास्थ्य रिपोर्ट विश्लेषण',
+          description: 'एआई-संचालित विश्लेषण के लिए एक रिपोर्ट अपलोड करें।',
+          cta: 'रिपोर्ट का विश्लेषण करें',
         },
       },
       reminders: {
@@ -497,6 +542,21 @@ export const translations = {
             timeHeader: "समय"
         }
     },
+    healthReport: {
+      title: 'स्वास्थ्य रिपोर्ट विश्लेषण',
+      description: 'एआई-संचालित विश्लेषण के लिए एक स्वास्थ्य रिपोर्ट (छवि या पीडीएफ) अपलोड करें।',
+      uploadArea: 'अपलोड करने के लिए क्लिक करें या फ़ाइल खींचें (छवि या पीडीएफ)',
+      analyzeButton: 'रिपोर्ट का विश्लेषण करें',
+      analyzingButton: 'विश्लेषण हो रहा है...',
+      resultTitle: "एआई की रिपोर्ट विश्लेषण",
+      analysisLabel: 'विश्लेषण',
+      medicationLabel: 'सुझाई गई दवा',
+      downloadButton: 'विश्लेषण डाउनलोड करें',
+      disclaimer: {
+          title: 'अस्वीकरण',
+          text: 'यह विश्लेषण अपलोड की गई रिपोर्ट के आधार पर एआई-जनित है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है। जानकारी को सत्यापित करने और कोई भी नई दवा लेने से पहले अपने डॉक्टर से परामर्श करें।',
+      },
+    },
   },
   Tamil: {
     dashboard: {
@@ -517,6 +577,11 @@ export const translations = {
           title: 'மருந்து',
           description: 'உங்கள் மருந்து அட்டவணையை கண்காணிக்கவும்।',
           cta: 'மருந்துகளை நிர்வகிக்கவும்',
+        },
+        healthReport: {
+          title: 'சுகாதார அறிக்கை பகுப்பாய்வு',
+          description: 'AI-இயங்கும் பகுப்பாய்விற்காக ஒரு அறிக்கையை பதிவேற்றவும்।',
+          cta: 'அறிக்கையை பகுப்பாய்வு செய்யவும்',
         },
       },
       reminders: {
@@ -662,6 +727,21 @@ export const translations = {
             dosageHeader: "மருந்தளவு",
             timeHeader: "நேரம்"
         }
+    },
+    healthReport: {
+      title: 'சுகாதார அறிக்கை பகுப்பாய்வு',
+      description: 'AI-இயங்கும் பகுப்பாய்விற்காக ஒரு சுகாதார அறிக்கையை (படம் அல்லது PDF) பதிவேற்றவும்।',
+      uploadArea: 'பதிவேற்ற கிளிக் செய்யவும் அல்லது கோப்பை இழுக்கவும் (படம் அல்லது PDF)',
+      analyzeButton: 'அறிக்கையை பகுப்பாய்வு செய்யவும்',
+      analyzingButton: 'பகுப்பாய்வு செய்யப்படுகிறது...',
+      resultTitle: "AI இன் அறிக்கை பகுப்பாய்வு",
+      analysisLabel: 'பகுப்பாய்வு',
+      medicationLabel: 'பரிந்துரைக்கப்பட்ட மருந்து',
+      downloadButton: 'பகுப்பாய்வைப் பதிவிறக்கவும்',
+      disclaimer: {
+        title: 'பொறுப்புத் துறப்பு',
+        text: 'இந்த பகுப்பாய்வு பதிவேற்றப்பட்ட அறிக்கையின் அடிப்படையில் AI-உருவாக்கப்பட்டது மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தகவலைச் சரிபார்க்க உங்கள் மருத்துவரை அணுகவும் மற்றும் புதிய மருந்தை எடுத்துக்கொள்வதற்கு முன்।',
+      },
     },
   },
 };

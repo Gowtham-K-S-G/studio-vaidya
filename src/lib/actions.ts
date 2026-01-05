@@ -5,6 +5,7 @@ import { getHealthAdvice, type GetHealthAdviceOutput, GetHealthAdviceInput } fro
 import { imageBasedDiagnosis, type ImageBasedDiagnosisOutput, type ImageBasedDiagnosisInput } from '@/ai/flows/image-based-diagnosis';
 import { analyzeVoiceSymptoms as analyzeVoiceSymptomsFlow, type VoiceSymptomsOutput, type VoiceSymptomsInput } from '@/ai/flows/voice-based-symptom-analysis';
 import { textToSpeech as textToSpeechFlow } from '@/ai/flows/text-to-speech';
+import { analyzeHealthReport as analyzeHealthReportFlow, type AnalyzeHealthReportOutput, type AnalyzeHealthReportInput } from '@/ai/flows/health-report-analysis';
 import { z } from 'zod';
 import { ZodError } from 'zod';
 
@@ -26,6 +27,10 @@ const VoiceSymptomInputSchema = z.object({
 
 const TextToSpeechInputSchema = z.string().min(1, "No text provided for speech synthesis.");
 
+const AnalyzeHealthReportInputSchema = z.object({
+    reportDataUri: z.string().min(1, "Please upload a report file."),
+    language: z.string(),
+});
 
 export async function getSymptomAdvice(input: GetHealthAdviceInput): Promise<{ success: true; data: GetHealthAdviceOutput } | { success: false; error: string }> {
   try {
@@ -81,4 +86,19 @@ export async function textToSpeech(text: string) {
         console.error(error);
         return { success: false, error: 'An unexpected error occurred during text-to-speech conversion.' };
     }
+}
+
+
+export async function analyzeHealthReport(input: AnalyzeHealthReportInput): Promise<{ success: true; data: AnalyzeHealthReportOutput } | { success: false; error: string }> {
+  try {
+    AnalyzeHealthReportInputSchema.parse(input);
+    const result = await analyzeHealthReportFlow(input);
+    return { success: true, data: result };
+  } catch (error) {
+    if (error instanceof ZodError) {
+        return { success: false, error: error.errors.map(e => e.message).join(', ') };
+    }
+    console.error(error);
+    return { success: false, error: 'An unexpected error occurred while analyzing the health report.' };
+  }
 }

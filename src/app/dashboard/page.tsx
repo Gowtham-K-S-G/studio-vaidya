@@ -6,7 +6,7 @@ import { AppLayout } from '@/components/app-layout';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bot, Calendar, Pill, ArrowRight } from 'lucide-react';
+import { Bot, Calendar, Pill, ArrowRight, FileText } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 
@@ -36,6 +36,13 @@ export default function DashboardPage() {
       href: '/medication',
       cta: t.featureCards.medication.cta,
     },
+    {
+      icon: FileText,
+      title: t.featureCards.healthReport.title,
+      description: t.featureCards.healthReport.description,
+      href: '/health-report',
+      cta: t.featureCards.healthReport.cta,
+    }
   ];
 
   return (
