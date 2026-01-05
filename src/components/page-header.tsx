@@ -18,6 +18,7 @@ import { useFirebase } from '@/firebase';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 type PageHeaderProps = {
   title: string;
@@ -28,14 +29,24 @@ export function PageHeader({ title, description }: PageHeaderProps) {
   const { language, setLanguage } = useLanguage();
   const { auth, user, isUserLoading } = useFirebase();
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleLogout = async () => {
     if (!auth) return;
     try {
       await signOut(auth);
+      toast({
+        title: 'Logged Out',
+        description: 'You have been successfully logged out.',
+      });
       router.push('/login');
     } catch (error) {
       console.error("Logout error", error);
+      toast({
+        variant: 'destructive',
+        title: 'Logout Failed',
+        description: 'An unexpected error occurred during logout.',
+      });
     }
   };
 
@@ -136,4 +147,3 @@ export function PageHeader({ title, description }: PageHeaderProps) {
     </header>
   );
 }
-
