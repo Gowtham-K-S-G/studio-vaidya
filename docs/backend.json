@@ -1,0 +1,136 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user's profile within the V-AI-DYA system.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user profile."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "User's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "User's last name."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "User's date of birth.",
+          "format": "date-time"
+        },
+        "gender": {
+          "type": "string",
+          "description": "User's gender."
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "User's preferred language for interacting with the VHA."
+        },
+        "contactNumber": {
+          "type": "string",
+          "description": "User's contact phone number."
+        },
+        "address": {
+          "type": "string",
+          "description": "User's address."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "dateOfBirth",
+        "gender",
+        "preferredLanguage",
+        "contactNumber",
+        "address"
+      ]
+    },
+    "Dashboard": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Dashboard",
+      "type": "object",
+      "description": "Represents a user's personalized dashboard within the V-AI-DYA system.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the dashboard."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:1 Dashboard)"
+        },
+        "lastLogin": {
+          "type": "string",
+          "description": "The time of the user's last login.",
+          "format": "date-time"
+        },
+        "recentActivities": {
+          "type": "array",
+          "description": "A list of user's recent activities on the dashboard.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}/profile",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user profile information. The 'userId' parameter ensures that only the authenticated user can access their own profile. Access is limited to the user with the matching userId.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, corresponding to the Firebase Auth UID."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/dashboard",
+        "definition": {
+          "entityName": "Dashboard",
+          "schema": {
+            "$ref": "#/backend/entities/Dashboard"
+          },
+          "description": "Stores user dashboard information. The 'userId' parameter ensures that only the authenticated user can access their own dashboard. Access is limited to the user with the matching userId.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, corresponding to the Firebase Auth UID."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "This design prioritizes security and scalability for the Swasth Sahayak application, focusing on authenticated user access to profiles and dashboards. It emphasizes Authorization Independence to enable robust security rules without relying on hierarchical `get()` calls, which are detrimental to atomic operations and debugging. Each user has a dedicated profile and dashboard. This structure ensures that each document's access control can be determined independently, improving security and performance. The application's data is structured to facilitate secure `list` operations, which are essential for QAPs (Rules are not Filters).\n\n*   **Authorization Independence:** Achieved by directly associating each `UserProfile` and `Dashboard` document with a `userId`, eliminating the need to fetch parent documents to determine authorization. Rules can directly check `request.auth.uid == resource.data.userId`.\n*   **Segregation:** Utilizes path-based ownership (`/users/{userId}/profile`) to isolate user data, ensuring that only the authenticated user can access their own profile and dashboard data. This structure naturally supports QAPs, as listing operations are scoped to a user's own data, rather than filtering across a shared collection.\n\nThis design is suitable for the application because the data exhibits a clear `User 1:1 Profile` and `User 1:1 Dashboard` relationship, making path-based ownership the most secure and efficient solution."
+  }
+}

@@ -1,0 +1,141 @@
+/**
+ * @file firestore.rules
+ * @description Security rules for the V-AI-DYA Firestore database.
+ *
+ * @section Core Philosophy
+ * This ruleset enforces a strict user-ownership model. All user-specific data,
+ * including profiles and dashboards, is siloed within a user's own data tree.
+ * Access is granted only to the authenticated user who owns that specific data tree,
+ * preventing any unauthorized cross-user data access.
+ *
+ * @section Data Structure
+ * All user-centric data is organized hierarchically under the `/users/{userId}` path.
+ * This structure creates a secure "data silo" for each user, simplifying security
+ * logic and ensuring that queries for one user cannot accidentally leak data
+ * from another.
+ *   - `/users/{userId}/profile/{profileId}`: Contains the user's profile document.
+ *   - `/users/{userId}/dashboard/{dashboardId}`: Contains the user's dashboard document.
+ *
+ * @section Key Security Decisions
+ * - User Silos: Data is strictly segregated by user ID in the path. A user can
+ *   NEVER read or write data outside of their own `/users/{their-uid}/` path.
+ * - No Public Listing: There are no publicly listable collections. Listing documents
+ *   is only permitted within a user's own data path.
+ * - Ownership Integrity: On creation, documents must contain an internal ID field
+ *   (e.g., `id` or `userId`) that matches the `{userId}` from the path. This
+ *   ownership link is enforced as immutable on all subsequent updates, preventing
+ *   documents from being "re-assigned" to another user.
+ *
+ * @section Denormalization for Authorization
+ * The security model relies on path-based authorization (`/users/{userId}`). This
+ * avoids slow and costly `get()` calls to other documents for authorization checks.
+ * The ownership is determined directly from the document's path, making rules
+ * fast, performant, and secure.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // Helper Functions
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if a user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the requesting user's UID matches the user ID in the path.
+     * This is the primary function for enforcing data ownership.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Checks if the user is the owner and the document already exists.
+     * Used for safe update and delete operations.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    /**
+     * Validates that a new UserProfile document is correctly linked to its
+     * owner's path upon creation.
+     */
+    function isValidNewProfile(userId) {
+      return request.resource.data.id == userId;
+    }
+
+    /**
+     * Enforces immutability of the UserProfile's core 'id' field during updates.
+     * This prevents re-assigning the profile to a different user.
+     */
+    function isImmutableProfile() {
+      return request.resource.data.id == resource.data.id;
+    }
+
+    /**
+     * Validates that a new Dashboard document is correctly linked to its
+     * owner's path upon creation.
+     */
+    function isValidNewDashboard(userId) {
+      return request.resource.data.userId == userId;
+    }
+
+    /**
+     * Enforces immutability of the Dashboard's 'userId' field during updates.
+     * This prevents re-assigning the dashboard to a different user.
+     */
+    function isImmutableDashboard() {
+      return request.resource.data.userId == resource.data.userId;
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Collection Rules
+    // -------------------------------------------------------------------------
+
+    /**
+     * @description Governs access to a user's profile documents. Only the
+     *              authenticated owner of the data can read or write their profile.
+     * @path        /users/{userId}/profile/{profileId}
+     * @allow       (get, create, update, delete) A logged-in user with UID 'user123'
+     *              can perform any operation on `/users/user123/profile/any_doc_id`.
+     * @deny        (get, create, update, delete) A logged-in user with UID 'user456'
+     *              is denied all access to `/users/user123/profile/any_doc_id`.
+     * @principle   Restricts access to a user's own data tree and validates
+     *              relational integrity on write operations.
+     */
+    match /users/{userId}/profile/{profileId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidNewProfile(userId);
+      allow update: if isExistingOwner(userId) && isImmutableProfile();
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Governs access to a user's dashboard documents. Only the
+     *              authenticated owner of the data can read or write their dashboard.
+     * @path        /users/{userId}/dashboard/{dashboardId}
+     * @allow       (get, create, update, delete) A logged-in user with UID 'user123'
+     *              can perform any operation on `/users/user123/dashboard/any_doc_id`.
+     * @deny        (get, create, update, delete) A logged-in user with UID 'user456'
+     *              is denied all access to `/users/user123/dashboard/any_doc_id`.
+     * @principle   Restricts access to a user's own data tree and validates
+     *              relational integrity on write operations.
+     */
+    match /users/{userId}/dashboard/{dashboardId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidNewDashboard(userId);
+      allow update: if isExistingOwner(userId) && isImmutableDashboard();
+      allow delete: if isExistingOwner(userId);
+    }
+  }
+}
