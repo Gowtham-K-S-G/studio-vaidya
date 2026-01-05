@@ -36,7 +36,7 @@ service cloud.firestore {
     // Rule for accessing a SINGLE notification document.
     match /notifications/{notificationId} {
         // A user can read/update a single notification if they are the owner.
-        allow read, update: if isSignedIn() && isOwner(resource.data.userId);
+        allow get, update: if isSignedIn() && isOwner(resource.data.userId);
         // Any signed-in user can create notifications.
         allow create: if isSignedIn();
          // Users cannot delete notifications for now.
