@@ -25,7 +25,10 @@ export type ImageBasedDiagnosisInput = z.infer<typeof ImageBasedDiagnosisInputSc
 
 const ImageBasedDiagnosisOutputSchema = z.object({
   diagnosis: z.string().describe('The preliminary diagnosis of the condition.'),
+  confidenceScore: z.number().describe('A confidence score (0-1) for the diagnosis.'),
+  detailedDescription: z.string().describe('A more detailed description of the diagnosis and what the image shows.'),
   severity: z.string().describe('The severity of the condition (e.g., mild, moderate, severe).'),
+  commonSymptoms: z.array(z.string()).describe('A list of common symptoms associated with the diagnosed condition.'),
   recommendation: z
     .string()
     .describe(
@@ -48,14 +51,17 @@ const prompt = ai.definePrompt({
 
   Analyze the provided image of a skin condition or wound and any additional description.
 
-  You MUST provide the entire response (diagnosis, severity, and recommendation) in the following language: {{{language}}}.
+  You MUST provide the entire response in the following language: {{{language}}}.
 
   Image: {{media url=photoDataUri}}
   Description: {{{description}}}
 
   Respond with a JSON object with the following keys, ensuring all string values are in the requested language:
   - diagnosis: A preliminary diagnosis of the condition.
+  - confidenceScore: A confidence score (from 0 to 1, e.g., 0.85) for the diagnosis.
+  - detailedDescription: A more detailed description of the diagnosis and what the image shows.
   - severity: The severity of the condition (e.g., mild, moderate, severe).
+  - commonSymptoms: A list of common symptoms associated with the diagnosed condition.
   - recommendation: Recommendation on whether to seek professional medical help and potential next steps.
 `,
 });

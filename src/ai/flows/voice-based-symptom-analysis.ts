@@ -21,9 +21,16 @@ const VoiceSymptomsInputSchema = z.object({
 });
 export type VoiceSymptomsInput = z.infer<typeof VoiceSymptomsInputSchema>;
 
+const PossibleCauseSchema = z.object({
+    name: z.string().describe('The name of the possible condition.'),
+    description: z.string().describe('A brief description of the condition and why it might be relevant.'),
+});
+
 const VoiceSymptomsOutputSchema = z.object({
-  possibleCauses: z.string().describe('Possible causes of the described symptoms.'),
-  suggestedNextSteps: z.string().describe('Suggested next steps for the patient.'),
+  transcribedSymptoms: z.string().describe('The transcribed text from the user\'s voice input.'),
+  possibleCauses: z.array(PossibleCauseSchema).describe('A structured list of possible causes for the described symptoms.'),
+  suggestedNextSteps: z.array(z.string()).describe('A list of suggested next steps for the patient.'),
+  urgency: z.string().describe('An assessment of urgency (e.g., "Low - Monitor symptoms", "Medium - See a doctor within 24 hours", "High - Seek immediate medical attention").'),
 });
 export type VoiceSymptomsOutput = z.infer<typeof VoiceSymptomsOutputSchema>;
 
@@ -39,15 +46,17 @@ const prompt = ai.definePrompt({
 
 You will receive voice data containing the patient's description of their symptoms. The user has requested that the response be in the following language: {{{language}}}.
 
-Analyze the symptoms from the audio and provide a response.
+First, transcribe the user's symptoms from the audio. Then, analyze the transcribed symptoms and provide a detailed response.
 
-You MUST provide the entire response (possibleCauses and suggestedNextSteps) in the following language: {{{language}}}.
+You MUST provide the entire response in the following language: {{{language}}}.
 
 Voice data: {{media url=voiceDataUri}}
 
 Respond with a JSON object with the following keys, ensuring all string values are in the requested language:
-- possibleCauses: Possible causes of the described symptoms.
-- suggestedNextSteps: Suggested next steps for the patient.`,
+- transcribedSymptoms: The transcribed text from the user's voice input.
+- possibleCauses: A structured list of possible causes. Each item should have a 'name' and a 'description'.
+- suggestedNextSteps: A list of suggested next steps for the patient.
+- urgency: An assessment of urgency (e.g., "Low - Monitor symptoms", "Medium - See a doctor within 24 hours", "High - Seek immediate medical attention").`,
 });
 
 const analyzeVoiceSymptomsFlow = ai.defineFlow(

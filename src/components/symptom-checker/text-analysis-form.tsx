@@ -32,9 +32,11 @@ import {
 } from '@/components/ui/form';
 import { getSymptomAdvice, textToSpeech } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Volume2, AlertTriangle, Pause, Play, Download } from 'lucide-react';
+import { Bot, Loader2, Volume2, AlertTriangle, Pause, Play, Download, ClipboardList, Activity, ShieldAlert } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
+import type { GetHealthAdviceOutput } from '@/ai/flows/multilingual-health-advice';
+import { Badge } from '../ui/badge';
 
 const formSchema = z.object({
   symptoms: z.string().min(10, 'Please describe your symptoms in more detail (at least 10 characters).'),
@@ -47,7 +49,7 @@ export function TextAnalysisForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<GetHealthAdviceOutput | null>(null);
   const [submittedSymptoms, setSubmittedSymptoms] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
@@ -83,7 +85,7 @@ export function TextAnalysisForm() {
     setIsLoading(false);
 
     if (response.success && response.data) {
-      setResult(response.data.advice);
+      setResult(response.data);
     } else {
       toast({
         variant: 'destructive',
@@ -106,8 +108,14 @@ export function TextAnalysisForm() {
     }
 
     if (!result) return;
+    const textToRead = `
+        Preliminary Advice: ${result.preliminaryAdvice}.
+        Possible Conditions: ${result.possibleConditions.join(', ')}.
+        Suggested Actions: ${result.suggestedActions.join(', ')}.
+        Urgency: ${result.urgency}.
+    `;
     setIsSynthesizing(true);
-    const response = await textToSpeech(result);
+    const response = await textToSpeech(textToRead);
     setIsSynthesizing(false);
 
     if (response.success && response.data) {
@@ -135,7 +143,6 @@ AI Symptom Analysis Report
 ===========================
 
 Date of Analysis: ${new Date().toLocaleString()}
-
 Report Language: ${form.getValues('language')}
 
 Symptoms Described:
@@ -144,7 +151,19 @@ ${submittedSymptoms}
 
 AI Preliminary Advice:
 ----------------------
-${result}
+${result.preliminaryAdvice}
+
+Possible Conditions:
+--------------------
+${result.possibleConditions.map(c => `- ${c}`).join('\n')}
+
+Suggested Actions:
+------------------
+${result.suggestedActions.map(a => `- ${a}`).join('\n')}
+
+Urgency Assessment:
+-------------------
+${result.urgency}
 
 Disclaimer:
 -----------
@@ -156,7 +175,7 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
     a.href = url;
     a.download = `AI-Symptom-Advice-${new Date().toISOString().split('T')[0]}.txt`;
     document.body.appendChild(a);
-    a.click();
+a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
@@ -227,10 +246,10 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
       </Form>
       {result && (
         <CardContent>
-          <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-4">
+          <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-6">
             <div className="flex justify-between items-center mb-2">
-                <h3 className="flex items-center gap-2 font-semibold">
-                <Bot className="h-5 w-5 text-primary" />
+                <h3 className="flex items-center gap-2 font-semibold text-lg">
+                <Bot className="h-6 w-6 text-primary" />
                 {t.resultTitle}
                 </h3>
                 <div className="flex items-center gap-2">
@@ -250,7 +269,38 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
                     </Button>
                 </div>
             </div>
-            <p className="text-sm text-foreground">{result}</p>
+            
+            <div className="space-y-4 text-sm">
+                <div>
+                    <h4 className="font-semibold mb-1">Preliminary Advice</h4>
+                    <p className="text-muted-foreground">{result.preliminaryAdvice}</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 className="font-semibold mb-2 flex items-center"><ClipboardList className="mr-2 h-4 w-4"/>Possible Conditions</h4>
+                        <div className="flex flex-col space-y-1">
+                            {result.possibleConditions.map((condition, index) => (
+                                <Badge key={index} variant="secondary">{condition}</Badge>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="font-semibold mb-2 flex items-center"><Activity className="mr-2 h-4 w-4"/>Suggested Actions</h4>
+                        <ul className="list-disc list-inside text-muted-foreground">
+                            {result.suggestedActions.map((action, index) => (
+                                <li key={index}>{action}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 className="font-semibold mb-1 flex items-center"><ShieldAlert className="mr-2 h-4 w-4"/>Urgency</h4>
+                    <p className="text-muted-foreground">{result.urgency}</p>
+                </div>
+            </div>
+
             <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
                 <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <p className="text-xs">

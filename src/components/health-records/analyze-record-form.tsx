@@ -24,10 +24,11 @@ import {
 } from '@/components/ui/form';
 import { analyzeHealthRecord } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Upload, AlertTriangle, FileText, Download } from 'lucide-react';
+import { Bot, Loader2, Upload, AlertTriangle, FileText, Download, List, Stethoscope, FlaskConical, UserMd } from 'lucide-react';
 import type { AnalyzeHealthRecordOutput } from '@/ai/flows/analyze-health-record';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
+import { Badge } from '../ui/badge';
 
 const formSchema = z.object({
   file: z.any().refine(
@@ -107,19 +108,31 @@ export function AnalyzeRecordForm() {
   const handleDownload = () => {
     if (!result) return;
     const reportContent = `
-AI Health Record Analysis
-===========================
+AI Health Record Analysis Report
+=================================
 
 Original File: ${fileName || 'N/A'}
 Date of Analysis: ${new Date().toLocaleString()}
 
+Summary:
+--------
+${result.summary}
+
+Key Findings:
+-------------
+${result.keyFindings.map(finding => `- ${finding}`).join('\n')}
+
 Preliminary Diagnosis:
 ----------------------
-${result.diagnosis}
+${result.preliminaryDiagnosis}
 
 Suggested Medication:
 ---------------------
-${result.medication}
+${result.suggestedMedication}
+
+Suggested Specialist:
+-----------------------
+${result.suggestedSpecialist}
 
 
 Disclaimer:
@@ -198,10 +211,10 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
       </Form>
       {result && (
         <CardContent>
-          <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-4">
+          <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-6">
             <div className="flex justify-between items-center">
-              <h3 className="flex items-center gap-2 font-semibold">
-                <Bot className="h-5 w-5 text-primary" />
+              <h3 className="flex items-center gap-2 font-semibold text-lg">
+                <Bot className="h-6 w-6 text-primary" />
                 {t.resultTitle}
               </h3>
               <Button variant="outline" size="sm" onClick={handleDownload}>
@@ -209,10 +222,30 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
                 {t.downloadReportButton}
               </Button>
             </div>
-            <div className="grid gap-2 text-sm">
-                <p><strong>{t.diagnosisLabel}:</strong> {result.diagnosis}</p>
-                <p><strong>{t.medicationLabel}:</strong> {result.medication}</p>
+            
+            <div className="space-y-4 text-sm">
+                <div>
+                    <h4 className="font-semibold mb-1 flex items-center"><List className="mr-2 h-4 w-4"/>Summary</h4>
+                    <p className="text-muted-foreground">{result.summary}</p>
+                </div>
+                 <div>
+                    <h4 className="font-semibold mb-2 flex items-center"><Stethoscope className="mr-2 h-4 w-4"/>Key Findings</h4>
+                    <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                        {result.keyFindings.map((finding, index) => (
+                            <li key={index}>{finding}</li>
+                        ))}
+                    </ul>
+                </div>
+                 <div>
+                    <h4 className="font-semibold mb-1 flex items-center"><FlaskConical className="mr-2 h-4 w-4"/>Preliminary Diagnosis</h4>
+                    <p className="text-muted-foreground">{result.preliminaryDiagnosis}</p>
+                </div>
+                 <div>
+                    <h4 className="font-semibold mb-1 flex items-center"><UserMd className="mr-2 h-4 w-4"/>Suggested Specialist</h4>
+                    <Badge variant="outline">{result.suggestedSpecialist}</Badge>
+                </div>
             </div>
+
             <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
                 <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <p className="text-xs">

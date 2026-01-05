@@ -31,10 +31,11 @@ import {
 } from '@/components/ui/form';
 import { analyzeVoiceSymptoms, textToSpeech } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Mic, Square, Volume2, AlertTriangle, Pause, Download } from 'lucide-react';
+import { Bot, Loader2, Mic, Square, Volume2, AlertTriangle, Pause, Download, ShieldAlert, Activity, MessageSquare } from 'lucide-react';
 import type { VoiceSymptomsOutput } from '@/ai/flows/voice-based-symptom-analysis';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
+import { Badge } from '../ui/badge';
 
 const formSchema = z.object({
   language: z.string(),
@@ -46,7 +47,7 @@ export function VoiceAnalysisForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isSynthesizing, setIsSynthesizing] = useState(false);
-  const [isPlaying, setIsPlaying] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [result, setResult] = useState<VoiceSymptomsOutput | null>(null);
   const [audioDataUri, setAudioDataUri] = useState<string | null>(null);
   
@@ -133,7 +134,7 @@ export function VoiceAnalysisForm() {
     setResult(null);
      if (audioRef.current) {
         audioRef.current.pause();
-        setIsPlaying(null);
+        setIsPlaying(false);
         audioRef.current = null;
     }
 
@@ -156,36 +157,40 @@ export function VoiceAnalysisForm() {
     }
   }
 
-  async function handleTextToSpeech(text: string, part: 'causes' | 'steps') {
-    if (audioRef.current && !audioRef.current.paused && isPlaying === part) {
+  async function handleTextToSpeech() {
+    if (audioRef.current && !audioRef.current.paused) {
       audioRef.current.pause();
-      setIsPlaying(null);
+      setIsPlaying(false);
       return;
     }
-    if (audioRef.current && audioRef.current.paused && isPlaying === part) {
+    if (audioRef.current && audioRef.current.paused) {
       audioRef.current.play();
+      setIsPlaying(true);
       return;
     }
-    // If another part is playing, stop it
-     if (audioRef.current) {
-        audioRef.current.pause();
-    }
 
+    if (!result) return;
+    
+    const textToRead = `
+        Here is the analysis of your symptoms.
+        First, the possible causes:
+        ${result.possibleCauses.map(cause => `${cause.name}: ${cause.description}`).join('. ')}.
+        Next, the suggested next steps:
+        ${result.suggestedNextSteps.join(', ')}.
+        Finally, the urgency level is: ${result.urgency}.
+    `;
 
-    if (!text) return;
     setIsSynthesizing(true);
-    const response = await textToSpeech(text);
+    const response = await textToSpeech(textToRead);
     setIsSynthesizing(false);
 
     if (response.success && response.data) {
       const audio = new Audio(response.data);
       audioRef.current = audio;
       audio.play();
-      setIsPlaying(part);
-      audio.onplay = () => setIsPlaying(part);
-      audio.onpause = () => setIsPlaying(null);
+      setIsPlaying(true);
       audio.onended = () => {
-        setIsPlaying(null);
+        setIsPlaying(false);
         audioRef.current = null;
       };
     } else {
@@ -206,10 +211,21 @@ AI Voice Analysis Report
 Date of Analysis: ${new Date().toLocaleString()}
 Report Language: ${form.getValues('language')}
 
+Transcribed Symptoms:
+---------------------
+${result.transcribedSymptoms}
+
 AI Analysis Results:
 --------------------
-- Possible Causes: ${result.possibleCauses}
-- Suggested Next Steps: ${result.suggestedNextSteps}
+Possible Causes:
+${result.possibleCauses.map(cause => `- ${cause.name}: ${cause.description}`).join('\n')}
+
+Suggested Next Steps:
+${result.suggestedNextSteps.map(step => `- ${step}`).join('\n')}
+
+Urgency Assessment:
+-------------------
+${result.urgency}
 
 Disclaimer:
 -----------
@@ -277,32 +293,51 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
       </Form>
       {result && (
         <CardContent>
-          <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-4">
+          <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-6">
              <div className="flex justify-between items-center">
-                <h3 className="flex items-center gap-2 font-semibold">
-                  <Bot className="h-5 w-5 text-primary" />
+                <h3 className="flex items-center gap-2 font-semibold text-lg">
+                  <Bot className="h-6 w-6 text-primary" />
                   {t.resultTitle}
                 </h3>
-                <Button variant="outline" size="sm" onClick={handleDownload}>
-                    <Download className="mr-2 h-4 w-4" />
-                    {t.downloadButton}
-                </Button>
+                <div className='flex items-center gap-2'>
+                    <Button onClick={handleTextToSpeech} disabled={isSynthesizing} size="sm" variant="outline">
+                        {isSynthesizing ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : isPlaying ? <Pause className="mr-2 h-4 w-4" /> : <Volume2 className="mr-2 h-4 w-4" />}
+                        {isPlaying ? 'Pause' : 'Read Aloud'}
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleDownload}>
+                        <Download className="mr-2 h-4 w-4" />
+                        {t.downloadButton}
+                    </Button>
+                </div>
             </div>
-            <div className="grid gap-2 text-sm">
-                <div className="flex items-center justify-between">
-                    <strong>{t.possibleCausesLabel}:</strong>
-                    <Button onClick={() => handleTextToSpeech(`Possible Causes: ${result.possibleCauses}`, 'causes')} disabled={isSynthesizing} size="sm" variant="ghost">
-                        {isSynthesizing && isPlaying !== 'causes' ? <Loader2 className="h-4 w-4 animate-spin"/> : isPlaying === 'causes' ? <Pause className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                    </Button>
+            <div className="grid gap-4 text-sm">
+                <div>
+                    <h4 className="font-semibold mb-1 flex items-center"><MessageSquare className="mr-2 h-4 w-4"/>Transcribed Symptoms</h4>
+                    <p className="text-muted-foreground italic">"{result.transcribedSymptoms}"</p>
                 </div>
-                <p>{result.possibleCauses}</p>
-                <div className="flex items-center justify-between mt-2">
-                    <strong>{t.suggestedNextStepsLabel}:</strong>
-                     <Button onClick={() => handleTextToSpeech(`Suggested Next Steps: ${result.suggestedNextSteps}`, 'steps')} disabled={isSynthesizing} size="sm" variant="ghost">
-                        {isSynthesizing && isPlaying !== 'steps' ? <Loader2 className="h-4 w-4 animate-spin"/> : isPlaying === 'steps' ? <Pause className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                    </Button>
+                <div>
+                    <h4 className="font-semibold mb-2">Possible Causes</h4>
+                    <div className="grid gap-3">
+                        {result.possibleCauses.map((cause, index) => (
+                            <div key={index} className="p-3 bg-background/50 rounded-md border">
+                                <p className="font-semibold">{cause.name}</p>
+                                <p className="text-muted-foreground">{cause.description}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <p>{result.suggestedNextSteps}</p>
+                 <div>
+                    <h4 className="font-semibold mb-2 flex items-center"><Activity className="mr-2 h-4 w-4"/>Suggested Next Steps</h4>
+                    <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                        {result.suggestedNextSteps.map((step, index) => (
+                            <li key={index}>{step}</li>
+                        ))}
+                    </ul>
+                </div>
+                 <div>
+                    <h4 className="font-semibold mb-1 flex items-center"><ShieldAlert className="mr-2 h-4 w-4"/>Urgency</h4>
+                    <Badge variant="outline">{result.urgency}</Badge>
+                </div>
             </div>
             <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
                 <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
