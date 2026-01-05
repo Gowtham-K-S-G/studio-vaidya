@@ -40,6 +40,8 @@ import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
+import { useFirebase } from '@/firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 export const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
 
@@ -64,6 +66,7 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { language } = useLanguage();
+  const { firestore, user } = useFirebase();
   const t = translations[language].appointments.form;
 
   const form = useForm<FormValues>({
@@ -73,20 +76,63 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     }
   });
 
+  async function createNotification(doctor: Doctor, values: FormValues) {
+    if (!firestore) return;
+
+    const notificationsCollection = collection(firestore, 'notifications');
+    const notification = {
+        // In a real app, you'd have a userId for the doctor
+        userId: doctor.id, 
+        title: "New Appointment Booked",
+        message: `A new appointment has been booked with you by a patient for ${format(values.date, "PPP")} at ${values.timeSlot}.`,
+        createdAt: serverTimestamp(),
+        isRead: false,
+    };
+    await addDoc(notificationsCollection, notification);
+  }
+
+
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsLoading(false);
+    
     const doctor = doctors.find(d => d.id === values.doctorId);
-    toast({
-      title: t.successTitle,
-      description: t.successDescription
-        .replace('{doctorName}', doctor?.name || '')
-        .replace('{date}', values.date.toDateString())
-        .replace('{timeSlot}', values.timeSlot),
-    });
-    form.reset({ doctorId: values.doctorId });
-    form.setValue('doctorId', values.doctorId);
+    if (!doctor) {
+        setIsLoading(false);
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Selected doctor not found.",
+        });
+        return;
+    }
+
+    try {
+        await createNotification(doctor, values);
+        
+        toast({
+            title: t.successTitle,
+            description: t.successDescription
+                .replace('{doctorName}', doctor.name)
+                .replace('{date}', format(values.date, "PPP"))
+                .replace('{timeSlot}', values.timeSlot),
+        });
+        toast({
+            title: "Notification Sent",
+            description: `Dr. ${doctor.name} has been notified of the appointment.`
+        });
+        form.reset({ doctorId: values.doctorId });
+        form.setValue('doctorId', values.doctorId);
+
+    } catch (error) {
+        console.error("Failed to book appointment or send notification:", error);
+        toast({
+            variant: "destructive",
+            title: "Booking Failed",
+            description: "Could not complete the appointment booking. Please try again."
+        });
+    } finally {
+        setIsLoading(false);
+    }
   }
   
   const handleDoctorChange = (doctorId: string) => {
@@ -134,76 +180,73 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
                 )}
               />
             )}
-            
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>{t.dateLabel}</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>{t.dateLabel}</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date < new Date(new Date().setHours(0,0,0,0))
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="timeSlot"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t.timeSlotLabel}</FormLabel>
+                        <FormControl>
+                           <div className="grid grid-cols-2 gap-2 pt-2">
+                              {timeSlots.map(slot => (
+                                  <Button
+                                      key={slot}
+                                      type="button"
+                                      variant={field.value === slot ? 'default' : 'outline'}
+                                      onClick={() => field.onChange(slot)}
+                                  >
+                                      {slot}
+                                  </Button>
+                              ))}
+                          </div>
                       </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date(new Date().setHours(0,0,0,0))
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="timeSlot"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t.timeSlotLabel}</FormLabel>
-                    <FormControl>
-                      <div className="grid grid-cols-2 gap-2 pt-2">
-                          {timeSlots.map(slot => (
-                              <Button
-                                  key={slot}
-                                  type="button"
-                                  variant="outline"
-                                  className={cn(
-                                    field.value === slot && "bg-primary text-primary-foreground"
-                                  )}
-                                  onClick={() => field.onChange(slot)}
-                              >
-                                  {slot}
-                              </Button>
-                          ))}
-                      </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+            </div>
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading} className="w-full">
