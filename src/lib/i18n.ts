@@ -113,7 +113,7 @@ export const translations = {
             phonePlaceholder: "e.g., +1 123 456 7890",
             submitButton: "Add Doctor",
             successTitle: "Doctor Added!",
-            successDescription: "Dr. {doctorName} has been added to your list.",
+            successDescription: "{doctorName} has been added to your list.",
         },
         form: {
             title: "Book an Appointment",
@@ -168,12 +168,26 @@ export const translations = {
     },
     healthRecords: {
         title: "Health Records",
-        description: "Access your complete medical history.",
+        description: "Access and analyze your medical history.",
         cardTitle: "Your Medical Records",
         cardDescription: "A log of your past consultations and reports.",
         notesLabel: "Consultation Notes:",
         reportsLabel: "Attached Reports:",
-        downloadButton: "Download"
+        downloadButton: "Download",
+        analysis: {
+          title: "Analyze a Health Record",
+          description: "Upload an image or PDF of a health report for an AI-powered analysis.",
+          uploadArea: "Click to upload or drag and drop a file",
+          analyzeButton: "Analyze Record",
+          analyzingButton: "Analyzing...",
+          resultTitle: "AI Analysis Result",
+          diagnosisLabel: "Preliminary Diagnosis",
+          medicationLabel: "Suggested Medication",
+           disclaimer: {
+                title: 'Disclaimer',
+                text: 'This is a preliminary analysis and not a substitute for professional medical advice. Please consult a doctor for an accurate diagnosis.',
+            },
+        }
     }
   },
   Kannada: {
@@ -344,12 +358,26 @@ export const translations = {
     },
     healthRecords: {
         title: "ಆರೋಗ್ಯ ದಾಖಲೆಗಳು",
-        description: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ವೈದ್ಯಕೀಯ ಇತಿಹಾಸವನ್ನು ಪ್ರವೇಶಿಸಿ.",
+        description: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ವೈದ್ಯಕೀಯ ಇತಿಹಾಸವನ್ನು ಪ್ರವೇಶಿಸಿ ಮತ್ತು ವಿಶ್ಲೇಷಿಸಿ.",
         cardTitle: "ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳು",
         cardDescription: "ನಿಮ್ಮ ಹಿಂದಿನ ಸಮಾಲೋಚನೆಗಳು ಮತ್ತು ವರದಿಗಳ ಒಂದು ಲಾಗ್.",
         notesLabel: "ಸಮಾಲೋಚನೆ ಟಿಪ್ಪಣಿಗಳು:",
         reportsLabel: "ಲಗತ್ತಿಸಲಾದ ವರದಿಗಳು:",
-        downloadButton: "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
+        downloadButton: "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+        analysis: {
+          title: "ಆರೋಗ್ಯ ದಾಖಲೆಯನ್ನು ವಿಶ್ಲೇಷಿಸಿ",
+          description: "AI-ಚಾಲಿತ ವಿಶ್ಲೇಷಣೆಗಾಗಿ ಆರೋಗ್ಯ ವರದಿಯ ಚಿತ್ರ ಅಥವಾ PDF ಅನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.",
+          uploadArea: "ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ ಅಥವಾ ಎಳೆದು ತನ್ನಿ",
+          analyzeButton: "ದಾಖಲೆಯನ್ನು ವಿಶ್ಲೇಷಿಸಿ",
+          analyzingButton: "ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+          resultTitle: "AI ವಿಶ್ಲೇಷಣೆ ಫಲಿತಾಂಶ",
+          diagnosisLabel: "ಪ್ರಾಥಮಿಕ ರೋಗನಿರ್ಣಯ",
+          medicationLabel: "ಸೂಚಿಸಲಾದ ಔಷಧಿ",
+           disclaimer: {
+                title: 'ಹಕ್ಕು ನಿರಾಕರಣೆ',
+                text: 'ಇದು ಪ್ರಾಥಮಿಕ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ ಮತ್ತು ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಲಹೆಗೆ ಬದಲಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಿಖರವಾದ ರೋಗನಿರ್ಣಯಕ್ಕಾಗಿ ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ.',
+            },
+        }
     }
   },
   Hindi: {
@@ -520,12 +548,26 @@ export const translations = {
     },
     healthRecords: {
         title: "स्वास्थ्य रिकॉर्ड",
-        description: "अपने संपूर्ण चिकित्सा इतिहास तक पहुँचें।",
+        description: "अपने संपूर्ण चिकित्सा इतिहास तक पहुँचें और उसका विश्लेषण करें।",
         cardTitle: "आपके मेडिकल रिकॉर्ड",
         cardDescription: "आपके पिछले परामर्शों और रिपोर्टों का एक लॉग।",
         notesLabel: "परामर्श नोट्स:",
         reportsLabel: "संलग्न रिपोर्ट:",
-        downloadButton: "डाउनलोड करें"
+        downloadButton: "डाउनलोड करें",
+        analysis: {
+          title: "स्वास्थ्य रिकॉर्ड का विश्लेषण करें",
+          description: "एआई-संचालित विश्लेषण के लिए स्वास्थ्य रिपोर्ट की एक छवि या पीडीएफ अपलोड करें।",
+          uploadArea: "फ़ाइल अपलोड करने के लिए क्लिक करें या खींचें और छोड़ें",
+          analyzeButton: "रिकॉर्ड का विश्लेषण करें",
+          analyzingButton: "विश्लेषण हो रहा है...",
+          resultTitle: "एआई विश्लेषण परिणाम",
+          diagnosisLabel: "प्रारंभिक निदान",
+          medicationLabel: "सुझाई गई दवा",
+           disclaimer: {
+                title: 'अस्वीकरण',
+                text: 'यह एक प्रारंभिक विश्लेषण है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है। कृपया सटीक निदान के लिए डॉक्टर से परामर्श करें।',
+            },
+        }
     }
   },
   Tamil: {
@@ -696,12 +738,26 @@ export const translations = {
     },
     healthRecords: {
         title: "சுகாதார பதிவுகள்",
-        description: "உங்கள் முழுமையான மருத்துவ வரலாற்றை அணுகவும்।",
+        description: "உங்கள் முழுமையான மருத்துவ வரலாற்றை அணுகி பகுப்பாய்வு செய்யுங்கள்।",
         cardTitle: "உங்கள் மருத்துவ பதிவுகள்",
         cardDescription: "உங்கள் கடந்தகால ஆலோசனைகள் மற்றும் அறிக்கைகளின் ஒரு பதிவு।",
         notesLabel: "ஆலோசனை குறிப்புகள்:",
         reportsLabel: "இணைக்கப்பட்ட அறிக்கைகள்:",
-        downloadButton: "பதிவிறக்கவும்"
+        downloadButton: "பதிவிறக்கவும்",
+        analysis: {
+          title: "சுகாதார பதிவை பகுப்பாய்வு செய்யுங்கள்",
+          description: "AI-இயங்கும் பகுப்பாய்விற்காக சுகாதார அறிக்கையின் படம் அல்லது PDF ஐ பதிவேற்றவும்।",
+          uploadArea: "கோப்பைப் பதிவேற்ற கிளிக் செய்யவும் அல்லது இழுத்து விடவும்",
+          analyzeButton: "பதிவை பகுப்பாய்வு செய்யவும்",
+          analyzingButton: "பகுப்பாய்வு செய்யப்படுகிறது...",
+          resultTitle: "AI பகுப்பாய்வு முடிவு",
+          diagnosisLabel: "முதன்மை நோயறிதல்",
+          medicationLabel: "பரிந்துரைக்கப்பட்ட மருந்து",
+           disclaimer: {
+                title: 'பொறுப்புத் துறப்பு',
+                text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',
+            },
+        }
     }
   },
 };

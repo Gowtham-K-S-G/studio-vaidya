@@ -4,6 +4,7 @@
 import { getHealthAdvice, type GetHealthAdviceInput } from '@/ai/flows/multilingual-health-advice';
 import { imageBasedDiagnosis, type ImageBasedDiagnosisInput } from '@/ai/flows/image-based-diagnosis';
 import { analyzeVoiceSymptoms as analyzeVoiceSymptomsFlow, type VoiceSymptomsInput } from '@/ai/flows/voice-based-symptom-analysis';
+import { analyzeHealthRecord as analyzeHealthRecordFlow, type AnalyzeHealthRecordInput } from '@/ai/flows/analyze-health-record';
 import { textToSpeech as textToSpeechFlow } from '@/ai/flows/text-to-speech';
 import { z } from 'zod';
 import { ZodError } from 'zod';
@@ -21,6 +22,11 @@ const ImageBasedDiagnosisInputSchema = z.object({
 
 const VoiceSymptomInputSchema = z.object({
     voiceDataUri: z.string().min(1, "Please record your audio."),
+    language: z.string(),
+});
+
+const AnalyzeHealthRecordInputSchema = z.object({
+    fileDataUri: z.string().min(1, "Please upload a file."),
     language: z.string(),
 });
 
@@ -66,6 +72,20 @@ export async function analyzeVoiceSymptoms(input: VoiceSymptomsInput) {
       }
       console.error(error);
       return { success: false, error: 'An unexpected error occurred while analyzing the voice input.' };
+    }
+}
+
+export async function analyzeHealthRecord(input: AnalyzeHealthRecordInput) {
+    try {
+        AnalyzeHealthRecordInputSchema.parse(input);
+        const result = await analyzeHealthRecordFlow(input);
+        return { success: true, data: result };
+    } catch (error) {
+        if (error instanceof ZodError) {
+            return { success: false, error: error.errors.map(e => e.message).join(', ') };
+        }
+        console.error(error);
+        return { success: false, error: 'An unexpected error occurred while analyzing the record.' };
     }
 }
 
