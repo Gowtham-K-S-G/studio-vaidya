@@ -31,7 +31,7 @@ import {
 } from '@/components/ui/form';
 import { analyzeVoiceSymptoms, textToSpeech } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Mic, Square, Volume2, AlertTriangle, Pause } from 'lucide-react';
+import { Bot, Loader2, Mic, Square, Volume2, AlertTriangle, Pause, Download } from 'lucide-react';
 import type { VoiceSymptomsOutput } from '@/ai/flows/voice-based-symptom-analysis';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
@@ -197,6 +197,35 @@ export function VoiceAnalysisForm() {
     }
   }
 
+  const handleDownload = () => {
+    if (!result) return;
+    const reportContent = `
+AI Voice Analysis Report
+========================
+
+Date of Analysis: ${new Date().toLocaleString()}
+Report Language: ${form.getValues('language')}
+
+AI Analysis Results:
+--------------------
+- Possible Causes: ${result.possibleCauses}
+- Suggested Next Steps: ${result.suggestedNextSteps}
+
+Disclaimer:
+-----------
+${t.disclaimer.title}: ${t.disclaimer.text}
+`;
+    const blob = new Blob([reportContent.trim()], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `AI-Voice-Analysis-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <Card>
       <Form {...form}>
@@ -249,10 +278,16 @@ export function VoiceAnalysisForm() {
       {result && (
         <CardContent>
           <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-4">
-            <h3 className="flex items-center gap-2 font-semibold">
-              <Bot className="h-5 w-5 text-primary" />
-              {t.resultTitle}
-            </h3>
+             <div className="flex justify-between items-center">
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <Bot className="h-5 w-5 text-primary" />
+                  {t.resultTitle}
+                </h3>
+                <Button variant="outline" size="sm" onClick={handleDownload}>
+                    <Download className="mr-2 h-4 w-4" />
+                    {t.downloadButton}
+                </Button>
+            </div>
             <div className="grid gap-2 text-sm">
                 <div className="flex items-center justify-between">
                     <strong>{t.possibleCausesLabel}:</strong>

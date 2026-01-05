@@ -32,7 +32,7 @@ import {
 } from '@/components/ui/form';
 import { getSymptomAdvice, textToSpeech } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Volume2, AlertTriangle, Pause, Play } from 'lucide-react';
+import { Bot, Loader2, Volume2, AlertTriangle, Pause, Play, Download } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 
@@ -48,6 +48,7 @@ export function TextAnalysisForm() {
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [result, setResult] = useState<string | null>(null);
+  const [submittedSymptoms, setSubmittedSymptoms] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
   const { language } = useLanguage();
@@ -72,6 +73,7 @@ export function TextAnalysisForm() {
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
     setResult(null);
+    setSubmittedSymptoms(values.symptoms);
     if (audioRef.current) {
         audioRef.current.pause();
         setIsPlaying(false);
@@ -125,6 +127,39 @@ export function TextAnalysisForm() {
         });
     }
   }
+
+  const handleDownload = () => {
+    if (!result || !submittedSymptoms) return;
+    const reportContent = `
+AI Symptom Analysis Report
+===========================
+
+Date of Analysis: ${new Date().toLocaleString()}
+
+Report Language: ${form.getValues('language')}
+
+Symptoms Described:
+-------------------
+${submittedSymptoms}
+
+AI Preliminary Advice:
+----------------------
+${result}
+
+Disclaimer:
+-----------
+${t.disclaimer.title}: ${t.disclaimer.text}
+`;
+    const blob = new Blob([reportContent.trim()], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `AI-Symptom-Advice-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <Card>
@@ -198,16 +233,22 @@ export function TextAnalysisForm() {
                 <Bot className="h-5 w-5 text-primary" />
                 {t.resultTitle}
                 </h3>
-                <Button onClick={handleTextToSpeech} disabled={isSynthesizing} size="sm" variant="outline">
-                    {isSynthesizing ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : isPlaying ? (
-                        <Pause className="mr-2 h-4 w-4" />
-                    ) : (
-                       <Volume2 className="mr-2 h-4 w-4" />
-                    )}
-                    {isPlaying ? t.pauseButton : t.readAloudButton}
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button onClick={handleTextToSpeech} disabled={isSynthesizing} size="sm" variant="outline">
+                        {isSynthesizing ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : isPlaying ? (
+                            <Pause className="mr-2 h-4 w-4" />
+                        ) : (
+                           <Volume2 className="mr-2 h-4 w-4" />
+                        )}
+                        {isPlaying ? t.pauseButton : t.readAloudButton}
+                    </Button>
+                     <Button onClick={handleDownload} size="sm" variant="outline">
+                        <Download className="mr-2 h-4 w-4" />
+                        {t.downloadButton}
+                    </Button>
+                </div>
             </div>
             <p className="text-sm text-foreground">{result}</p>
             <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">

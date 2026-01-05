@@ -55,6 +55,7 @@ export const translations = {
         resultTitle: "AI's Preliminary Advice",
         readAloudButton: 'Read Aloud',
         pauseButton: 'Pause',
+        downloadButton: 'Download Advice',
         disclaimer: {
           title: 'Disclaimer',
           text: 'This is a preliminary analysis and not a substitute for professional medical advice. Please consult a doctor for an accurate diagnosis.',
@@ -72,6 +73,7 @@ export const translations = {
         preliminaryDiagnosisLabel: 'Preliminary Diagnosis',
         assessedSeverityLabel: 'Assessed Severity',
         recommendationLabel: 'Recommendation',
+        downloadButton: 'Download Report',
         disclaimer: {
           title: 'Disclaimer',
           text: 'This is a preliminary analysis and not a substitute for professional medical advice. Please consult a doctor for an accurate diagnosis.',
@@ -88,6 +90,7 @@ export const translations = {
         resultTitle: "AI's Voice Analysis",
         possibleCausesLabel: 'Possible Causes',
         suggestedNextStepsLabel: 'Suggested Next Steps',
+        downloadButton: 'Download Report',
         disclaimer: {
           title: 'Disclaimer',
           text: 'This is a preliminary analysis and not a substitute for professional medical advice. Please consult a doctor for an accurate diagnosis.',
@@ -246,6 +249,7 @@ export const translations = {
             resultTitle: "AI ಯ ಪ್ರಾಥಮಿಕ ಸಲಹೆ",
             readAloudButton: 'ಗಟ್ಟಿಯಾಗಿ ಓದಿ',
             pauseButton: 'ವಿರಾಮ',
+            downloadButton: 'ಸಲಹೆಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
             disclaimer: {
                 title: 'ಹಕ್ಕು ನಿರಾಕರಣೆ',
                 text: 'ಇದು ಪ್ರಾಥಮಿಕ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ ಮತ್ತು ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಲಹೆಗೆ ಬದಲಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಿಖರವಾದ ರೋಗನಿರ್ಣಯಕ್ಕಾಗಿ ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ.',
@@ -263,6 +267,7 @@ export const translations = {
             preliminaryDiagnosisLabel: 'ಪ್ರಾಥಮಿಕ ರೋಗನಿರ್ಣಯ',
             assessedSeverityLabel: 'ಮೌಲ್ಯಮಾಪನ ಮಾಡಿದ ತೀವ್ರತೆ',
             recommendationLabel: 'ಶಿಫಾರಸು',
+            downloadButton: 'ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
             disclaimer: {
                 title: 'ಹಕ್ಕು ನಿರಾಕರಣೆ',
                 text: 'ಇದು ಪ್ರಾಥಮಿಕ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ ಮತ್ತು ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಲಹೆಗೆ ಬದಲಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಿಖರವಾದ ರೋಗನಿರ್ಣಯಕ್ಕಾಗಿ ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ.',
@@ -279,6 +284,7 @@ export const translations = {
             resultTitle: "AI ಯ ಧ್ವನಿ ವಿಶ್ಲೇಷಣೆ",
             possibleCausesLabel: 'ಸಂಭವನೀಯ ಕಾರಣಗಳು',
             suggestedNextStepsLabel: 'ಸೂಚಿಸಲಾದ ಮುಂದಿನ ಕ್ರಮಗಳು',
+            downloadButton: 'ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
             disclaimer: {
                 title: 'ಹಕ್ಕು ನಿರಾಕರಣೆ',
                 text: 'ಇದು ಪ್ರಾಥಮಿಕ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ ಮತ್ತು ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಲಹೆಗೆ ಬದಲಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಿಖರವಾದ ರೋಗನಿರ್ಣಯಕ್ಕಾಗಿ ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ.',
@@ -437,6 +443,7 @@ export const translations = {
             resultTitle: "एआई की प्रारंभिक सलाह",
             readAloudButton: 'जोर से पढ़ें',
             pauseButton: 'रोकें',
+            downloadButton: 'सलाह डाउनलोड करें',
             disclaimer: {
                 title: 'अस्वीकरण',
                 text: 'यह एक प्रारंभिक विश्लेषण है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है। कृपया सटीक निदान के लिए डॉक्टर से परामर्श करें।',
@@ -454,6 +461,7 @@ export const translations = {
             preliminaryDiagnosisLabel: 'प्रारंभिक निदान',
             assessedSeverityLabel: 'आकलित गंभीरता',
             recommendationLabel: 'सिफारिश',
+            downloadButton: 'रिपोर्ट डाउनलोड करें',
             disclaimer: {
                 title: 'अस्वीकरण',
                 text: 'यह एक प्रारंभिक विश्लेषण है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है। कृपया सटीक निदान के लिए डॉक्टर से परामर्श करें।',
@@ -470,6 +478,7 @@ export const translations = {
             resultTitle: "एआई का आवाज विश्लेषण",
             possibleCausesLabel: 'संभावित कारण',
             suggestedNextStepsLabel: 'सुझाए गए अगले कदम',
+            downloadButton: 'रिपोर्ट डाउनलोड करें',
             disclaimer: {
                 title: 'अस्वीकरण',
                 text: 'यह एक प्रारंभिक विश्लेषण है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है। कृपया सटीक निदान के लिए डॉक्टर से परामर्श करें।',
@@ -628,6 +637,7 @@ export const translations = {
             resultTitle: "AI இன் முதன்மை ஆலோசனை",
             readAloudButton: 'உரக்கப் படியுங்கள்',
             pauseButton: 'இடைநிறுத்து',
+            downloadButton: 'ஆலோசனையைப் பதிவிறக்கவும்',
             disclaimer: {
                 title: 'பொறுப்புத் துறப்பு',
                 text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',
@@ -645,6 +655,7 @@ export const translations = {
             preliminaryDiagnosisLabel: 'முதன்மை நோயறிதல்',
             assessedSeverityLabel: 'மதிப்பிடப்பட்ட தீவிரம்',
             recommendationLabel: 'பரிந்துரை',
+            downloadButton: 'அறிக்கையைப் பதிவிறக்கவும்',
             disclaimer: {
                 title: 'பொறுப்புத் துறப்பு',
                 text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',
@@ -661,6 +672,7 @@ export const translations = {
             resultTitle: "AI இன் குரல் பகுப்பாய்வு",
             possibleCausesLabel: 'சாத்தியமான காரணங்கள்',
             suggestedNextStepsLabel: 'பரிந்துரைக்கப்பட்ட அடுத்தபடிகள்',
+            downloadButton: 'அறிக்கையைப் பதிவிறக்கவும்',
             disclaimer: {
                 title: 'பொறுப்புத் துறப்பு',
                 text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',

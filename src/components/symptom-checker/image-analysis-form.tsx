@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/form';
 import { getImageDiagnosis } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Upload, AlertTriangle } from 'lucide-react';
+import { Bot, Loader2, Upload, AlertTriangle, Download } from 'lucide-react';
 import type { ImageBasedDiagnosisOutput } from '@/ai/flows/image-based-diagnosis';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
@@ -46,6 +46,7 @@ export function ImageAnalysisForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ImageBasedDiagnosisOutput | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [submittedDescription, setSubmittedDescription] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const { language } = useLanguage();
@@ -79,6 +80,7 @@ export function ImageAnalysisForm() {
 
     setIsLoading(true);
     setResult(null);
+    setSubmittedDescription(values.description || '');
 
     const response = await getImageDiagnosis({
       photoDataUri: preview,
@@ -98,6 +100,40 @@ export function ImageAnalysisForm() {
       });
     }
   }
+
+  const handleDownload = () => {
+    if (!result) return;
+    const reportContent = `
+AI Image Analysis Report
+========================
+
+Date of Analysis: ${new Date().toLocaleString()}
+Report Language: ${language}
+
+User-provided Description:
+--------------------------
+${submittedDescription || 'No description provided.'}
+
+AI Analysis Results:
+--------------------
+- Preliminary Diagnosis: ${result.diagnosis}
+- Assessed Severity: ${result.severity}
+- Recommendation: ${result.recommendation}
+
+Disclaimer:
+-----------
+${t.disclaimer.title}: ${t.disclaimer.text}
+`;
+    const blob = new Blob([reportContent.trim()], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `AI-Image-Analysis-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <Card>
@@ -177,10 +213,16 @@ export function ImageAnalysisForm() {
       {result && (
         <CardContent>
           <div className="mt-4 rounded-lg border bg-secondary/50 p-4 space-y-4">
-            <h3 className="flex items-center gap-2 font-semibold">
-              <Bot className="h-5 w-5 text-primary" />
-              {t.resultTitle}
-            </h3>
+            <div className="flex justify-between items-center">
+              <h3 className="flex items-center gap-2 font-semibold">
+                <Bot className="h-5 w-5 text-primary" />
+                {t.resultTitle}
+              </h3>
+               <Button variant="outline" size="sm" onClick={handleDownload}>
+                <Download className="mr-2 h-4 w-4" />
+                {t.downloadButton}
+              </Button>
+            </div>
             <div className="grid gap-2 text-sm">
                 <p><strong>{t.preliminaryDiagnosisLabel}:</strong> {result.diagnosis}</p>
                 <p><strong>{t.assessedSeverityLabel}:</strong> {result.severity}</p>
