@@ -4,23 +4,18 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Phone, MapPin, Stethoscope } from 'lucide-react';
-import type { Doctor } from "@/lib/doctors-data";
+import type { Doctor } from "@/lib/types";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { useLanguage } from "@/context/language-context";
-import { translations } from "@/lib/i18n";
 
 type HospitalDetailsProps = {
   doctor: Doctor;
 };
 
 export function HospitalDetails({ doctor }: HospitalDetailsProps) {
-  const { language } = useLanguage();
-  const t = translations[language].appointments.details;
   const getAvatarUrl = (avatarId: string) => {
-    return PlaceHolderImages.find(img => img.id === avatarId)?.imageUrl || '';
+    return PlaceHolderImages.find(img => img.id === avatarId)?.imageUrl || `https://picsum.photos/seed/${doctor.id}/100/100`;
   };
-  const gMapsUrl = `https://www.google.com/maps/search/?api=1&query=${doctor.location.lat},${doctor.location.lng}`;
-
+  
   return (
     <Card>
       <CardHeader className="flex flex-row items-start gap-4">
@@ -47,16 +42,18 @@ export function HospitalDetails({ doctor }: HospitalDetailsProps) {
             <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
             <span>{doctor.address}</span>
         </div>
-        <div className="aspect-video w-full rounded-md overflow-hidden">
-            <iframe
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                loading="lazy"
-                allowFullScreen
-                src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${doctor.location.lat},${doctor.location.lng}&zoom=15`}
-            ></iframe>
-        </div>
+        {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && doctor.location && (
+          <div className="aspect-video w-full rounded-md overflow-hidden">
+              <iframe
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  allowFullScreen
+                  src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${doctor.location.lat},${doctor.location.lng}&zoom=15`}
+              ></iframe>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

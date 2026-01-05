@@ -32,9 +32,13 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { doctors, timeSlots } from '@/lib/doctors-data';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
+import type { Doctor } from '@/lib/types';
+import { Skeleton } from '../ui/skeleton';
+
+export const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
+
 
 const formSchema = z.object({
   doctorId: z.string({ required_error: 'Please select a doctor.' }),
@@ -45,12 +49,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 type AppointmentFormProps = {
+  doctors: Doctor[];
+  isLoadingDoctors: boolean;
   selectedDoctorId: string | null;
   setSelectedDoctorId: (id: string | null) => void;
 };
 
 
-export function AppointmentForm({ selectedDoctorId, setSelectedDoctorId }: AppointmentFormProps) {
+export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, setSelectedDoctorId }: AppointmentFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { language } = useLanguage();
@@ -95,28 +101,35 @@ export function AppointmentForm({ selectedDoctorId, setSelectedDoctorId }: Appoi
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="doctorId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t.doctorLabel}</FormLabel>
-                  <Select onValueChange={handleDoctorChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t.doctorPlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {doctors.map(doctor => (
-                         <SelectItem key={doctor.id} value={doctor.id}>{doctor.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {isLoadingDoctors ? (
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-1/4" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            ) : (
+              <FormField
+                control={form.control}
+                name="doctorId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t.doctorLabel}</FormLabel>
+                    <Select onValueChange={handleDoctorChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t.doctorPlaceholder} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {doctors.map(doctor => (
+                          <SelectItem key={doctor.id} value={doctor.id}>{doctor.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="date"
