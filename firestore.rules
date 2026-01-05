@@ -33,13 +33,16 @@ service cloud.firestore {
       allow update, delete: if false; 
     }
 
+    match /notifications/{document=**} {
+        // A user can list their own notifications, but only if they query by their userId.
+        allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
+        // A user can read a single notification if they are the owner.
+        allow read: if isSignedIn() && isOwner(get(/databases/$(database)/documents/notifications/$(request.resource.id)).data.userId);
+    }
+
     match /notifications/{notificationId} {
       // Any signed-in user can create notifications.
       allow create: if isSignedIn();
-      // A user can get a single notification if they are the owner.
-      allow get: if isOwner(resource.data.userId);
-      // A user can list their own notifications.
-      allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
       // Allow user to update their own notifications (e.g. to mark as read).
       allow update: if isOwner(resource.data.userId);
        // Users cannot delete notifications for now.
