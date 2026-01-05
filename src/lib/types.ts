@@ -14,12 +14,3 @@ export type Doctor = {
     lng: number;
   };
 };
-
-export type Notification = {
-    id: string;
-    userId: string;
-    title: string;
-    message: string;
-    createdAt: Timestamp;
-    isRead: boolean;
-};

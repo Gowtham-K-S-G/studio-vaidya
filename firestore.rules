@@ -29,24 +29,5 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
-    // ----------------------------
-    // Notifications collection ✅ FIXED
-    // ----------------------------
-    match /notifications/{notificationId} {
-
-      // Read = get + list (queries)
-      allow read: if isSignedIn()
-                  && resource.data.userId == request.auth.uid;
-
-      // Create notification
-      allow create: if isSignedIn();
-
-      // Update only own notification
-      allow update: if isSignedIn()
-                    && resource.data.userId == request.auth.uid;
-
-      // No deletes
-      allow delete: if false;
-    }
   }
 }

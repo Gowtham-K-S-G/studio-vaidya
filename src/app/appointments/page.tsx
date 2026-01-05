@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { AppLayout } from '@/components/app-layout';
 import { PageHeader } from '@/components/page-header';
 import { AppointmentForm } from '@/components/appointments/appointment-form';
-import { UpcomingAppointments } from '@/components/appointments/upcoming-appointments';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 import type { Doctor } from '@/lib/types';
@@ -110,7 +109,6 @@ export default function AppointmentsPage() {
           </div>
           <div className="lg:col-span-3 space-y-8">
             {selectedDoctor && <HospitalDetails doctor={selectedDoctor} />}
-            <UpcomingAppointments />
           </div>
         </main>
       </div>

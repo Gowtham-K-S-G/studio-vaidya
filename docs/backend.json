@@ -146,41 +146,6 @@
         "phone",
         "avatarId"
       ]
-    },
-    "Notification": {
-      "title": "Notification",
-      "description": "Represents a notification for a user.",
-      "type": "object",
-      "properties": {
-        "userId": {
-          "type": "string",
-          "description": "The ID of the user who should receive the notification."
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the notification."
-        },
-        "message": {
-          "type": "string",
-          "description": "The main content of the notification."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The timestamp when the notification was created."
-        },
-        "isRead": {
-          "type": "boolean",
-          "description": "Whether the notification has been read by the user."
-        }
-      },
-      "required": [
-        "userId",
-        "title",
-        "message",
-        "createdAt",
-        "isRead"
-      ]
     }
   },
   "auth": {
@@ -201,12 +166,6 @@
         "$ref": "#/backend/entities/UserProfile"
       },
       "description": "Stores user profile information. Only the authenticated user can access their own profile."
-    },
-    "/notifications/{notificationId}": {
-      "schema": {
-        "$ref": "#/backend/entities/Notification"
-      },
-      "description": "Stores notifications for users. A user can only read their own notifications."
     }
   }
 }

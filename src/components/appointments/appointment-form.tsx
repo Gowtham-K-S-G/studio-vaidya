@@ -34,7 +34,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { useFirebase } from '@/firebase';
-import { addDoc, collection, serverTimestamp, writeBatch, doc } from 'firebase/firestore';
 import {
   Select,
   SelectContent,
@@ -42,8 +41,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { errorEmitter } from '@/firebase/error-emitter';
-import { FirestorePermissionError } from '@/firebase/errors';
 
 export const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
 
@@ -78,32 +75,6 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     }
   });
 
-  function createPatientNotification(doctor: Doctor, values: FormValues) {
-    if (!firestore || !user) return Promise.reject("Firestore not available or user not logged in");
-
-    const notificationsCollection = collection(firestore, 'notifications');
-    
-    // Notification for the Patient
-    const patientNotification = {
-        userId: user.uid,
-        title: "Appointment Confirmed",
-        message: `Your appointment with Dr. ${doctor.name} is confirmed for ${format(values.date, "PPP")} at ${values.timeSlot}.`,
-        createdAt: serverTimestamp(),
-        isRead: false,
-    };
-    
-    return addDoc(notificationsCollection, patientNotification).catch(error => {
-      console.error("Error creating patient notification:", error);
-      const permissionError = new FirestorePermissionError({
-        path: notificationsCollection.path,
-        operation: 'create',
-        requestResourceData: patientNotification,
-      });
-      errorEmitter.emit('permission-error', permissionError);
-      throw permissionError; 
-    });
-  }
-
 
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
@@ -120,7 +91,8 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     }
 
     try {
-        await createPatientNotification(doctor, values);
+        // Here you could add logic to save the appointment to a collection
+        // For now, we just show a success toast.
         
         toast({
             title: t.successTitle,
@@ -129,22 +101,16 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
                 .replace('{date}', format(values.date, "PPP"))
                 .replace('{timeSlot}', values.timeSlot),
         });
-        toast({
-            title: "Notification Sent",
-            description: `You have been notified of your appointment with Dr. ${doctor.name}.`
-        });
         form.reset({ doctorId: values.doctorId });
         form.setValue('doctorId', values.doctorId);
 
     } catch (error) {
-        console.error("Failed to book appointment or send notification:", error);
-        if (!(error instanceof FirestorePermissionError)) {
-          toast({
-              variant: "destructive",
-              title: "Booking Failed",
-              description: "Could not complete the appointment booking. Please try again."
-          });
-        }
+        console.error("Failed to book appointment:", error);
+        toast({
+            variant: "destructive",
+            title: "Booking Failed",
+            description: "Could not complete the appointment booking. Please try again."
+        });
     } finally {
         setIsLoading(false);
     }
