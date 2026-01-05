@@ -20,21 +20,22 @@ service cloud.firestore {
     // -------------------------------------------------------------------------
 
     match /users/{userId}/{document=**} {
+      // Users can only read and write their own documents.
       allow read, write: if isOwner(userId);
     }
     
     match /doctors/{doctorId} {
       allow read: if true; // Allow public read access to doctor list
       allow list: if true; // Allow public list access
-      // Temporarily allow anyone to create a doctor for testing.
-      // This will be changed back to isSignedIn() after auth is implemented.
-      allow create: if true; 
+      // Only signed-in users can add a new doctor.
+      allow create: if isSignedIn(); 
       allow update, delete: if false; // Or add admin logic here
     }
 
     match /notifications/{notificationId} {
-      // Temporarily allow anyone to create a notification for testing.
-      allow create: if true;
+      // Only signed-in users can create notifications.
+      allow create: if isSignedIn();
+      // Users can only read notifications intended for them (based on userId field in notification).
       allow read, write: if isSignedIn() && isOwner(resource.data.userId);
     }
   }
