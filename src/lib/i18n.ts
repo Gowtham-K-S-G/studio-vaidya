@@ -183,6 +183,7 @@ export const translations = {
           resultTitle: "AI Analysis Result",
           diagnosisLabel: "Preliminary Diagnosis",
           medicationLabel: "Suggested Medication",
+          downloadReportButton: "Download Report",
            disclaimer: {
                 title: 'Disclaimer',
                 text: 'This is a preliminary analysis and not a substitute for professional medical advice. Please consult a doctor for an accurate diagnosis.',
@@ -373,6 +374,7 @@ export const translations = {
           resultTitle: "AI ವಿಶ್ಲೇಷಣೆ ಫಲಿತಾಂಶ",
           diagnosisLabel: "ಪ್ರಾಥಮಿಕ ರೋಗನಿರ್ಣಯ",
           medicationLabel: "ಸೂಚಿಸಲಾದ ಔಷಧಿ",
+          downloadReportButton: "ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
            disclaimer: {
                 title: 'ಹಕ್ಕು ನಿರಾಕರಣೆ',
                 text: 'ಇದು ಪ್ರಾಥಮಿಕ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ ಮತ್ತು ವೃತ್ತಿಪರ ವೈದ್ಯಕೀಯ ಸಲಹೆಗೆ ಬದಲಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಿಖರವಾದ ರೋಗನಿರ್ಣಯಕ್ಕಾಗಿ ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ.',
@@ -563,6 +565,7 @@ export const translations = {
           resultTitle: "एआई विश्लेषण परिणाम",
           diagnosisLabel: "प्रारंभिक निदान",
           medicationLabel: "सुझाई गई दवा",
+          downloadReportButton: "रिपोर्ट डाउनलोड करें",
            disclaimer: {
                 title: 'अस्वीकरण',
                 text: 'यह एक प्रारंभिक विश्लेषण है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है। कृपया सटीक निदान के लिए डॉक्टर से परामर्श करें।',
@@ -753,6 +756,7 @@ export const translations = {
           resultTitle: "AI பகுப்பாய்வு முடிவு",
           diagnosisLabel: "முதன்மை நோயறிதல்",
           medicationLabel: "பரிந்துரைக்கப்பட்ட மருந்து",
+          downloadReportButton: "அறிக்கையைப் பதிவிறக்கவும்",
            disclaimer: {
                 title: 'பொறுப்புத் துறப்பு',
                 text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை। தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்।',
