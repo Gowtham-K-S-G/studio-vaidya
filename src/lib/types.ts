@@ -1,4 +1,6 @@
 
+import type { Timestamp } from 'firebase/firestore';
+
 export type Doctor = {
   id: string;
   name: string;
@@ -11,4 +13,13 @@ export type Doctor = {
     lat: number;
     lng: number;
   };
+};
+
+export type Notification = {
+    id: string;
+    userId: string;
+    title: string;
+    message: string;
+    createdAt: Timestamp;
+    isRead: boolean;
 };

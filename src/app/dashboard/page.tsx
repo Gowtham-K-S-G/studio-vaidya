@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Bot, Calendar, Pill, FileText, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
+import { Notifications } from '@/components/dashboard/notifications';
 
 export default function DashboardPage() {
   const { language } = useLanguage();
@@ -53,45 +54,51 @@ export default function DashboardPage() {
           description={t.description}
         />
         <main className="flex-1 space-y-8 p-4 md:p-8">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {featureCards.map((feature) => (
-              <Card key={feature.title} className="flex flex-col">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <feature.icon className="h-6 w-6 text-primary" />
-                    {feature.title}
-                  </CardTitle>
-                  <CardDescription>{feature.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="mt-auto">
-                  <Link href={feature.href}>
-                    <Button className="w-full">
-                      {feature.cta}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2 lg:col-span-1">
+                {featureCards.slice(0, 2).map((feature) => (
+                <Card key={feature.title} className="flex flex-col">
+                    <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <feature.icon className="h-6 w-6 text-primary" />
+                        {feature.title}
+                    </CardTitle>
+                    <CardDescription>{feature.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="mt-auto">
+                    <Link href={feature.href}>
+                        <Button className="w-full">
+                        {feature.cta}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </Link>
+                    </CardContent>
+                </Card>
+                ))}
+                {featureCards.slice(2, 4).map((feature) => (
+                <Card key={feature.title} className="flex flex-col">
+                    <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <feature.icon className="h-6 w-6 text-primary" />
+                        {feature.title}
+                    </CardTitle>
+                    <CardDescription>{feature.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="mt-auto">
+                    <Link href={feature.href}>
+                        <Button className="w-full">
+                        {feature.cta}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </Link>
+                    </CardContent>
+                </Card>
+                ))}
+            </div>
+            <div className="lg:col-span-1">
+                <Notifications />
+            </div>
           </div>
-          <Card>
-            <CardHeader>
-              <CardTitle>{t.reminders.title}</CardTitle>
-              <CardDescription>{t.reminders.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-center gap-2">
-                  <Pill className="h-4 w-4 text-primary" />
-                  <span>{t.reminders.medication}</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-accent" />
-                  <span>{t.reminders.appointment}</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
         </main>
       </div>
     </AppLayout>
