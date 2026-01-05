@@ -3,7 +3,7 @@
 
 import { AppLayout } from '@/components/app-layout';
 import { PageHeader } from '@/components/page-header';
-import { MedicationSchedule } from '@/components/health-tracker/medication-schedule';
+import { MedicationSchedule } from '@/components/medication/medication-schedule';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,9 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { AddMedicationForm } from '@/components/health-tracker/add-medication-form';
+import { AddMedicationForm } from '@/components/medication/add-medication-form';
 import { useState } from 'react';
-import type { Medication } from '@/components/health-tracker/medication-schedule';
+import type { Medication } from '@/components/medication/medication-schedule';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 
