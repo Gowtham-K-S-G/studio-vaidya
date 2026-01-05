@@ -33,9 +33,7 @@ service cloud.firestore {
     // Health Records collection
     // ----------------------------
     match /health_records/{recordId} {
-      allow get: if isOwner(resource.data.userId);
-      allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
-      allow write: if isOwner(request.resource.data.userId);
+      allow read, write: if isOwner(request.resource.data.userId) || isOwner(resource.data.userId);
     }
   }
 }
