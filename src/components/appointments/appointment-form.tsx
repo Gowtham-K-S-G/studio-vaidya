@@ -34,7 +34,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { useFirebase } from '@/firebase';
-import { addDoc, collection, serverTimestamp, writeBatch } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, writeBatch, doc } from 'firebase/firestore';
 import {
   Select,
   SelectContent,
@@ -297,3 +297,5 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     </Card>
   );
 }
+
+    
