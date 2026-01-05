@@ -57,20 +57,10 @@ export default function MedicationPage() {
     setMedications([...medications, newMedication]);
     
     try {
-        const healthRecord = {
-            userId: user.uid,
-            title: `Added Medication: ${med.name}`,
-            date: new Date().toISOString(),
-            tags: ['Medication', med.type],
-            content: {
-                notes: `Added ${med.name} (${med.dosage}) to be taken at ${med.time}.`,
-                reports: [],
-            },
-        };
-        await addDoc(collection(firestore, 'health_records'), healthRecord);
+        // This part has been removed to disable health record logging
         toast({
             title: "Medication Added",
-            description: `${med.name} has been added to your schedule and health records.`,
+            description: `${med.name} has been added to your schedule.`,
         });
 
     } catch (error) {
@@ -78,7 +68,7 @@ export default function MedicationPage() {
         toast({
             variant: "destructive",
             title: "Logging Failed",
-            description: "Could not save the medication to your health records. Please try again."
+            description: "Could not save the medication. Please try again."
         });
     }
 

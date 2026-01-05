@@ -104,18 +104,7 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
         }
         appointmentDate.setHours(numericHours, parseInt(minutes, 10), 0, 0);
 
-        const healthRecord = {
-            userId: user.uid,
-            title: `Appointment with Dr. ${doctor.name}`,
-            date: appointmentDate.toISOString(),
-            tags: ['Appointment', doctor.specialty],
-            content: {
-                notes: `Scheduled an appointment for ${values.timeSlot}.`,
-                reports: [],
-            },
-        };
-        
-        await addDoc(collection(firestore, 'health_records'), healthRecord);
+        // This part has been removed to disable health record logging
         
         toast({
             title: t.successTitle,

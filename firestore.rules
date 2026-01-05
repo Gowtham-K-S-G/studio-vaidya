@@ -28,14 +28,5 @@ service cloud.firestore {
       allow create: if isSignedIn();
       allow update, delete: if false;
     }
-
-    // ----------------------------
-    // Health Records collection
-    // ----------------------------
-    match /health_records/{recordId} {
-      // WARNING: This is a temporary, permissive rule for debugging.
-      allow read: if isSignedIn();
-      allow write: if isOwner(request.resource.data.userId);
-    }
   }
 }

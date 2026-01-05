@@ -6,7 +6,7 @@ import { AppLayout } from '@/components/app-layout';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bot, Calendar, Pill, FileText, ArrowRight } from 'lucide-react';
+import { Bot, Calendar, Pill, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 
@@ -36,13 +36,6 @@ export default function DashboardPage() {
       href: '/medication',
       cta: t.featureCards.medication.cta,
     },
-    {
-      icon: FileText,
-      title: t.featureCards.healthRecords.title,
-      description: t.featureCards.healthRecords.description,
-      href: '/health-records',
-      cta: t.featureCards.healthRecords.cta,
-    },
   ];
 
   return (
@@ -53,7 +46,7 @@ export default function DashboardPage() {
           description={t.description}
         />
         <main className="flex-1 space-y-8 p-4 md:p-8">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {featureCards.map((feature) => (
             <Card key={feature.title} className="flex flex-col">
                 <CardHeader>
