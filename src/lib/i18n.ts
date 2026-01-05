@@ -96,26 +96,63 @@ export const translations = {
     },
     appointments: {
         title: "Manage Appointments",
-        description: "Book new appointments and view your upcoming schedule."
+        description: "Book new appointments and view your upcoming schedule.",
+        form: {
+            title: "Book an Appointment",
+            description: "Select a doctor and a time that works for you.",
+            doctorLabel: "Doctor",
+            doctorPlaceholder: "Select a doctor",
+            dateLabel: "Date",
+            timeSlotLabel: "Time Slot",
+            timeSlotPlaceholder: "Select a time",
+            button: "Confirm Appointment",
+            loadingButton: "Booking...",
+            successTitle: "Appointment Booked!",
+            successDescription: "Your appointment with {doctorName} is confirmed for {date} at {timeSlot}."
+        },
+        upcoming: {
+            title: "Upcoming Appointments",
+            description: "Here are your scheduled consultations.",
+            cancelButton: "Cancel",
+            noAppointments: "No upcoming appointments."
+        }
     },
     healthTracker: {
         title: "Health Tracker",
-        description: "Monitor your vital signs and manage your medication schedule.",
+        description: "Manage your medication schedule.",
         tabs: {
-            medication: "Medication",
-            vitals: "Vitals"
+            medication: "Medication"
         },
         addMedication: {
             button: "Add Medication",
             title: "Add New Medication",
-            description: "Fill in the details of your new medication."
+            description: "Fill in the details of your new medication.",
+            nameLabel: "Medication Name",
+            namePlaceholder: "e.g., Paracetamol",
+            dosageLabel: "Dosage",
+            dosagePlaceholder: "e.g., 500mg",
+            timeLabel: "Time (24h format)",
+            typeLabel: "Type",
+            typePlaceholder: "Select type",
+            submitButton: "Add Medication"
+        },
+        schedule: {
+            title: "Today's Medication",
+            description: "Check off your medications as you take them.",
+            takenHeader: "Taken",
+            medicationHeader: "Medication",
+            dosageHeader: "Dosage",
+            timeHeader: "Time"
         }
     },
     healthRecords: {
         title: "Health Records",
         description: "Access your complete medical history.",
         cardTitle: "Your Medical Records",
-        cardDescription: "A log of your past consultations and reports."
+        cardDescription: "A log of your past consultations and reports.",
+        notesLabel: "Consultation Notes:",
+        reportsLabel: "Attached Reports:",
+        downloadButton: "Download"
     }
   },
   Kannada: {
@@ -214,26 +251,63 @@ export const translations = {
     },
     appointments: {
         title: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
-        description: "ಹೊಸ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಬುಕ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಮುಂಬರುವ ವೇಳಾಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸಿ."
+        description: "ಹೊಸ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಬುಕ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಮುಂಬರುವ ವೇಳಾಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸಿ.",
+        form: {
+            title: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಿ",
+            description: "ನಿಮಗೆ ಸರಿಹೊಂದುವ ವೈದ್ಯರನ್ನು ಮತ್ತು ಸಮಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
+            doctorLabel: "ವೈದ್ಯರು",
+            doctorPlaceholder: "ವೈದ್ಯರನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+            dateLabel: "ದಿನಾಂಕ",
+            timeSlotLabel: "ಸಮಯ ಸ್ಲಾಟ್",
+            timeSlotPlaceholder: "ಸಮಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+            button: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಖಚಿತಪಡಿಸಿ",
+            loadingButton: "ಬುಕಿಂಗ್...",
+            successTitle: "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಲಾಗಿದೆ!",
+            successDescription: "{doctorName} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ {date} ರಂದು {timeSlot} ಕ್ಕೆ ಖಚಿತಗೊಂಡಿದೆ."
+        },
+        upcoming: {
+            title: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು",
+            description: "ನಿಮ್ಮ ನಿಗದಿತ ಸಮಾಲೋಚನೆಗಳು ಇಲ್ಲಿವೆ.",
+            cancelButton: "ರದ್ದುಮಾಡಿ",
+            noAppointments: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ."
+        }
     },
     healthTracker: {
         title: "ಆರೋಗ್ಯ ಟ್ರ್ಯಾಕರ್",
-        description: "ನಿಮ್ಮ ಪ್ರಮುಖ ಚಿಹ್ನೆಗಳನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ನಿರ್ವಹಿಸಿ.",
+        description: "ನಿಮ್ಮ ಔಷಧಿ ವೇಳಾಪಟ್ಟಿಯನ್ನು ನಿರ್ವಹಿಸಿ.",
         tabs: {
-            medication: "ಔಷಧಿ",
-            vitals: "ಪ್ರಮುಖಗಳು"
+            medication: "ಔಷಧಿ"
         },
         addMedication: {
             button: "ಔಷಧಿ ಸೇರಿಸಿ",
             title: "ಹೊಸ ಔಷಧಿ ಸೇರಿಸಿ",
-            description: "ನಿಮ್ಮ ಹೊಸ ಔಷಧಿಯ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ."
+            description: "ನಿಮ್ಮ ಹೊಸ ಔಷಧಿಯ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.",
+            nameLabel: "ಔಷಧಿಯ ಹೆಸರು",
+            namePlaceholder: "ಉದಾ., ಪ್ಯಾರಸಿಟಮಾಲ್",
+            dosageLabel: "ಡೋಸೇಜ್",
+            dosagePlaceholder: "ಉದಾ., 500mg",
+            timeLabel: "ಸಮಯ (24ಗಂ ಸ್ವರೂಪ)",
+            typeLabel: "ಪ್ರಕಾರ",
+            typePlaceholder: "ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+            submitButton: "ಔಷಧಿ ಸೇರಿಸಿ"
+        },
+        schedule: {
+            title: "ಇಂದಿನ ಔಷಧಿ",
+            description: "ನೀವು ತೆಗೆದುಕೊಳ್ಳುವಾಗ ನಿಮ್ಮ ಔಷಧಿಗಳನ್ನು ಗುರುತಿಸಿ.",
+            takenHeader: "ತೆಗೆದುಕೊಂಡಿದೆ",
+            medicationHeader: "ಔಷಧಿ",
+            dosageHeader: "ಡೋಸೇಜ್",
+            timeHeader: "ಸಮಯ"
         }
     },
     healthRecords: {
         title: "ಆರೋಗ್ಯ ದಾಖಲೆಗಳು",
         description: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ವೈದ್ಯಕೀಯ ಇತಿಹಾಸವನ್ನು ಪ್ರವೇಶಿಸಿ.",
         cardTitle: "ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳು",
-        cardDescription: "ನಿಮ್ಮ ಹಿಂದಿನ ಸಮಾಲೋಚನೆಗಳು ಮತ್ತು ವರದಿಗಳ ಒಂದು ಲಾಗ್."
+        cardDescription: "ನಿಮ್ಮ ಹಿಂದಿನ ಸಮಾಲೋಚನೆಗಳು ಮತ್ತು ವರದಿಗಳ ಒಂದು ಲಾಗ್.",
+        notesLabel: "ಸಮಾಲೋಚನೆ ಟಿಪ್ಪಣಿಗಳು:",
+        reportsLabel: "ಲಗತ್ತಿಸಲಾದ ವರದಿಗಳು:",
+        downloadButton: "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
     }
   },
   Hindi: {
@@ -332,26 +406,63 @@ export const translations = {
     },
     appointments: {
         title: "अपॉइंटमेंट प्रबंधित करें",
-        description: "नए अपॉइंटमेंट बुक करें और अपना आगामी शेड्यूल देखें।"
+        description: "नए अपॉइंटमेंट बुक करें और अपना आगामी शेड्यूल देखें।",
+        form: {
+            title: "अपॉइंटमेंट बुक करें",
+            description: "एक डॉक्टर और एक समय चुनें जो आपके लिए सुविधाजनक हो।",
+            doctorLabel: "डॉक्टर",
+            doctorPlaceholder: "एक डॉक्टर चुनें",
+            dateLabel: "दिनांक",
+            timeSlotLabel: "समय स्लॉट",
+            timeSlotPlaceholder: "एक समय चुनें",
+            button: "अपॉइंटमेंट की पुष्टि करें",
+            loadingButton: "बुकिंग...",
+            successTitle: "अपॉइंटमेंट बुक हो गया!",
+            successDescription: "{doctorName} के साथ आपका अपॉइंटमेंट {date} को {timeSlot} बजे के लिए कन्फर्म हो गया है।"
+        },
+        upcoming: {
+            title: "आगामी अपॉइंटमेंट्स",
+            description: "यहां आपके निर्धारित परामर्श हैं।",
+            cancelButton: "रद्द करें",
+            noAppointments: "कोई आगामी अपॉइंटमेंट नहीं है।"
+        }
     },
     healthTracker: {
         title: "स्वास्थ्य ट्रैकर",
-        description: "अपने महत्वपूर्ण संकेतों की निगरानी करें और अपनी दवा अनुसूची का प्रबंधन करें।",
+        description: "अपनी दवा अनुसूची का प्रबंधन करें।",
         tabs: {
-            medication: "दवा",
-            vitals: "महत्वपूर्ण"
+            medication: "दवा"
         },
         addMedication: {
             button: "दवा जोड़ें",
             title: "नई दवा जोड़ें",
-            description: "अपनी नई दवा का विवरण भरें।"
+            description: "अपनी नई दवा का विवरण भरें।",
+            nameLabel: "दवा का नाम",
+            namePlaceholder: "उदा., पैरासिटामोल",
+            dosageLabel: "खुराक",
+            dosagePlaceholder: "उदा., 500mg",
+            timeLabel: "समय (24 घंटे प्रारूप)",
+            typeLabel: "प्रकार",
+            typePlaceholder: "प्रकार चुनें",
+            submitButton: "दवा जोड़ें"
+        },
+        schedule: {
+            title: "आज की दवा",
+            description: "जब आप अपनी दवाएं लेते हैं तो उन्हें टिक करें।",
+            takenHeader: "लिया",
+            medicationHeader: "दवा",
+            dosageHeader: "खुराक",
+            timeHeader: "समय"
         }
     },
     healthRecords: {
         title: "स्वास्थ्य रिकॉर्ड",
         description: "अपने संपूर्ण चिकित्सा इतिहास तक पहुँचें।",
         cardTitle: "आपके मेडिकल रिकॉर्ड",
-        cardDescription: "आपके पिछले परामर्शों और रिपोर्टों का एक लॉग।"
+        cardDescription: "आपके पिछले परामर्शों और रिपोर्टों का एक लॉग।",
+        notesLabel: "परामर्श नोट्स:",
+        reportsLabel: "संलग्न रिपोर्ट:",
+        downloadButton: "डाउनलोड करें"
     }
   },
   Tamil: {
@@ -450,26 +561,63 @@ export const translations = {
     },
     appointments: {
         title: "சந்திப்புகளை நிர்வகிக்கவும்",
-        description: "புதிய சந்திப்புகளை பதிவுசெய்து உங்கள் வரவிருக்கும் அட்டவணையைப் பார்க்கவும்."
+        description: "புதிய சந்திப்புகளை பதிவுசெய்து உங்கள் வரவிருக்கும் அட்டவணையைப் பார்க்கவும்.",
+        form: {
+            title: "ஒரு சந்திப்பை பதிவு செய்யவும்",
+            description: "உங்களுக்கு ஏற்ற ஒரு மருத்துவர் மற்றும் நேரத்தைத் தேர்ந்தெடுக்கவும்.",
+            doctorLabel: "மருத்துவர்",
+            doctorPlaceholder: "ஒரு மருத்துவரைத் தேர்ந்தெடுக்கவும்",
+            dateLabel: "தேதி",
+            timeSlotLabel: "நேர ஸ்லாட்",
+            timeSlotPlaceholder: "ஒரு நேரத்தைத் தேர்ந்தெடுக்கவும்",
+            button: "சந்திப்பை உறுதிப்படுத்தவும்",
+            loadingButton: "பதிவுசெய்கிறது...",
+            successTitle: "சந்திப்பு பதிவு செய்யப்பட்டது!",
+            successDescription: "{doctorName} உடனான உங்கள் சந்திப்பு {date} அன்று {timeSlot} மணிக்கு உறுதி செய்யப்பட்டுள்ளது."
+        },
+        upcoming: {
+            title: "வரவிருக்கும் சந்திப்புகள்",
+            description: "உங்கள் திட்டமிடப்பட்ட ஆலோசனைகள் இங்கே உள்ளன.",
+            cancelButton: "ரத்துசெய்",
+            noAppointments: "வரவிருக்கும் சந்திப்புகள் எதுவும் இல்லை."
+        }
     },
     healthTracker: {
         title: "சுகாதார டிராக்கர்",
-        description: "உங்கள் முக்கிய அறிகுறிகளைக் கண்காணித்து, உங்கள் மருந்து அட்டவணையை நிர்வகிக்கவும்.",
+        description: "உங்கள் மருந்து அட்டவணையை நிர்வகிக்கவும்.",
         tabs: {
-            medication: "மருந்து",
-            vitals: "முக்கியமானவை"
+            medication: "மருந்து"
         },
         addMedication: {
             button: "மருந்து சேர்க்கவும்",
             title: "புதிய மருந்து சேர்க்கவும்",
-            description: "உங்கள் புதிய மருந்தின் விவரங்களை நிரப்பவும்."
+            description: "உங்கள் புதிய மருந்தின் விவரங்களை நிரப்பவும்.",
+            nameLabel: "மருந்தின் பெயர்",
+            namePlaceholder: "எ.கா., பாராசிட்டமால்",
+            dosageLabel: "மருந்தளவு",
+            dosagePlaceholder: "எ.கா., 500mg",
+            timeLabel: "நேரம் (24 மணிநேர வடிவம்)",
+            typeLabel: "வகை",
+            typePlaceholder: "வகையைத் தேர்ந்தெடுக்கவும்",
+            submitButton: "மருந்து சேர்க்கவும்"
+        },
+        schedule: {
+            title: "இன்றைய மருந்து",
+            description: "நீங்கள் மருந்துகளை எடுத்துக் கொள்ளும்போது அவற்றைக் குறிக்கவும்.",
+            takenHeader: "எடுத்துக்கொண்டது",
+            medicationHeader: "மருந்து",
+            dosageHeader: "மருந்தளவு",
+            timeHeader: "நேரம்"
         }
     },
     healthRecords: {
         title: "சுகாதார பதிவுகள்",
         description: "உங்கள் முழுமையான மருத்துவ வரலாற்றை அணுகவும்.",
         cardTitle: "உங்கள் மருத்துவ பதிவுகள்",
-        cardDescription: "உங்கள் கடந்தகால ஆலோசனைகள் மற்றும் அறிக்கைகளின் ஒரு பதிவு."
+        cardDescription: "உங்கள் கடந்தகால ஆலோசனைகள் மற்றும் அறிக்கைகளின் ஒரு பதிவு.",
+        notesLabel: "ஆலோசனை குறிப்புகள்:",
+        reportsLabel: "இணைக்கப்பட்ட அறிக்கைகள்:",
+        downloadButton: "பதிவிறக்கவும்"
     }
   },
 };
