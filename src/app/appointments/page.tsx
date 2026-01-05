@@ -11,7 +11,7 @@ import { translations } from '@/lib/i18n';
 import type { Doctor } from '@/lib/types';
 import { HospitalDetails } from '@/components/appointments/hospital-details';
 import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
-import { collection } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import {
@@ -23,8 +23,10 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { AddDoctorForm } from '@/components/appointments/add-doctor-form';
-import { addDocumentNonBlocking } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
+
 
 export default function AppointmentsPage() {
   const { language } = useLanguage();
@@ -47,19 +49,32 @@ export default function AppointmentsPage() {
 
   const handleAddDoctor = (doctorData: Omit<Doctor, 'id' | 'location' | 'avatarId'>) => {
     if (!doctorsCollection) return;
-    // In a real app, you would use a geocoding service to get lat/lng from address.
-    // For now, we'll use placeholder coordinates.
-    const newDoctor = {
+    
+    const newDoctorData = {
       ...doctorData,
       avatarId: `doctor-avatar-${Math.floor(Math.random() * 10) + 3}`,
-      location: { lat: 12.9716, lng: 77.5946 }, // Placeholder
+      location: { lat: 12.9716, lng: 77.5946 }, 
     };
-    addDocumentNonBlocking(doctorsCollection, newDoctor);
-    toast({
-      title: t.addDoctor.successTitle,
-      description: t.addDoctor.successDescription.replace('{doctorName}', newDoctor.name),
+
+    addDoc(doctorsCollection, newDoctorData)
+    .then(() => {
+        toast({
+            title: t.addDoctor.successTitle,
+            description: t.addDoctor.successDescription.replace('{doctorName}', newDoctorData.name),
+        });
+        setIsAddDoctorOpen(false);
+    })
+    .catch((error) => {
+        console.error("Error adding doctor: ", error);
+        errorEmitter.emit(
+            'permission-error',
+            new FirestorePermissionError({
+                path: doctorsCollection.path,
+                operation: 'create',
+                requestResourceData: newDoctorData,
+            })
+        );
     });
-    setIsAddDoctorOpen(false);
   };
 
   return (
