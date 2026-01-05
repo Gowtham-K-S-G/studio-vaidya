@@ -37,6 +37,9 @@ import { translations } from '@/lib/i18n';
 import type { Doctor } from '@/lib/types';
 import { Skeleton } from '../ui/skeleton';
 import { cn } from '@/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
 
 export const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
 
@@ -131,55 +134,76 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
                 )}
               />
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t.dateLabel}</FormLabel>
-                    <FormControl>
+            
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>{t.dateLabel}</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date < new Date() || date < new Date('1900-01-01')}
+                        disabled={(date) =>
+                          date < new Date(new Date().setHours(0,0,0,0))
+                        }
                         initialFocus
-                        className="p-0 rounded-md border"
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="timeSlot"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t.timeSlotLabel}</FormLabel>
-                     <FormControl>
-                        <div className="grid grid-cols-2 gap-2 pt-2">
-                            {timeSlots.map(slot => (
-                                <Button
-                                    key={slot}
-                                    type="button"
-                                    variant="outline"
-                                    className={cn(
-                                      field.value === slot && "bg-primary text-primary-foreground"
-                                    )}
-                                    onClick={() => field.onChange(slot)}
-                                >
-                                    {slot}
-                                </Button>
-                            ))}
-                        </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="timeSlot"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t.timeSlotLabel}</FormLabel>
+                    <FormControl>
+                      <div className="grid grid-cols-2 gap-2 pt-2">
+                          {timeSlots.map(slot => (
+                              <Button
+                                  key={slot}
+                                  type="button"
+                                  variant="outline"
+                                  className={cn(
+                                    field.value === slot && "bg-primary text-primary-foreground"
+                                  )}
+                                  onClick={() => field.onChange(slot)}
+                              >
+                                  {slot}
+                              </Button>
+                          ))}
+                      </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading} className="w-full">
