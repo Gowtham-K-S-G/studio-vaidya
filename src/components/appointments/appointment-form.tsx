@@ -36,6 +36,7 @@ import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
 import type { Doctor } from '@/lib/types';
 import { Skeleton } from '../ui/skeleton';
+import { cn } from '@/lib/utils';
 
 export const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
 
@@ -130,48 +131,55 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
                 )}
               />
             )}
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t.dateLabel}</FormLabel>
-                  <FormControl>
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) => date < new Date() || date < new Date('1900-01-01')}
-                      initialFocus
-                      className="p-0 rounded-md border"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="timeSlot"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t.timeSlotLabel}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t.dateLabel}</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t.timeSlotPlaceholder} />
-                      </SelectTrigger>
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < new Date() || date < new Date('1900-01-01')}
+                        initialFocus
+                        className="p-0 rounded-md border"
+                      />
                     </FormControl>
-                    <SelectContent>
-                      {timeSlots.map(slot => (
-                         <SelectItem key={slot} value={slot}>{slot}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="timeSlot"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t.timeSlotLabel}</FormLabel>
+                     <FormControl>
+                        <div className="grid grid-cols-2 gap-2 pt-2">
+                            {timeSlots.map(slot => (
+                                <Button
+                                    key={slot}
+                                    type="button"
+                                    variant="outline"
+                                    className={cn(
+                                      field.value === slot && "bg-primary text-primary-foreground"
+                                    )}
+                                    onClick={() => field.onChange(slot)}
+                                >
+                                    {slot}
+                                </Button>
+                            ))}
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading} className="w-full">
