@@ -34,12 +34,16 @@ service cloud.firestore {
     }
 
     match /notifications/{notificationId} {
-      // Any signed-in user can create notifications (for themselves or for a doctor).
+      // Any signed-in user can create notifications.
       allow create: if isSignedIn();
-      // A user can read notifications where their UID is in the 'userId' field.
-      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
-      // Allow user to update their own notifications (e.g. to mark as read)
-      allow write: if isOwner(resource.data.userId);
+      // A user can get a single notification if they are the owner.
+      allow get: if isOwner(resource.data.userId);
+      // A user can list their own notifications.
+      allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
+      // Allow user to update their own notifications (e.g. to mark as read).
+      allow update: if isOwner(resource.data.userId);
+       // Users cannot delete notifications for now.
+      allow delete: if false;
     }
   }
 }
