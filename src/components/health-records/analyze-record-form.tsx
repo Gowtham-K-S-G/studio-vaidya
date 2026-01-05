@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/form';
 import { analyzeHealthRecord } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Bot, Loader2, Upload, AlertTriangle, FileText, Download, List, Stethoscope, FlaskConical, UserMd } from 'lucide-react';
+import { Bot, Loader2, Upload, AlertTriangle, FileText, Download, List, Stethoscope, FlaskConical } from 'lucide-react';
 import type { AnalyzeHealthRecordOutput } from '@/ai/flows/analyze-health-record';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
@@ -241,7 +241,7 @@ ${t.disclaimer.title}: ${t.disclaimer.text}
                     <p className="text-muted-foreground">{result.preliminaryDiagnosis}</p>
                 </div>
                  <div>
-                    <h4 className="font-semibold mb-1 flex items-center"><UserMd className="mr-2 h-4 w-4"/>Suggested Specialist</h4>
+                    <h4 className="font-semibold mb-1 flex items-center"><Stethoscope className="mr-2 h-4 w-4"/>Suggested Specialist</h4>
                     <Badge variant="outline">{result.suggestedSpecialist}</Badge>
                 </div>
             </div>
