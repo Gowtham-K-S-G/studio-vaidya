@@ -115,6 +115,12 @@ export const translations = {
             description: "Here are your scheduled consultations.",
             cancelButton: "Cancel",
             noAppointments: "No upcoming appointments."
+        },
+        details: {
+          hospital: "Hospital",
+          specialty: "Specialty",
+          contact: "Contact",
+          address: "Address",
         }
     },
     medication: {
@@ -267,6 +273,12 @@ export const translations = {
             description: "ನಿಮ್ಮ ನಿಗದಿತ ಸಮಾಲೋಚನೆಗಳು ಇಲ್ಲಿವೆ.",
             cancelButton: "ರದ್ದುಮಾಡಿ",
             noAppointments: "ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ."
+        },
+        details: {
+          hospital: "ಆಸ್ಪತ್ರೆ",
+          specialty: "ತಜ್ಞತೆ",
+          contact: "ಸಂಪರ್ಕ",
+          address: "ವಿಳಾಸ",
         }
     },
     medication: {
@@ -419,6 +431,12 @@ export const translations = {
             description: "यहां आपके निर्धारित परामर्श हैं।",
             cancelButton: "रद्द करें",
             noAppointments: "कोई आगामी अपॉइंटमेंट नहीं है।"
+        },
+        details: {
+          hospital: "अस्पताल",
+          specialty: "विशेषज्ञता",
+          contact: "संपर्क",
+          address: "पता",
         }
     },
     medication: {
@@ -530,7 +548,7 @@ export const translations = {
             recommendationLabel: 'பரிந்துரை',
             disclaimer: {
                 title: 'பொறுப்புத் துறப்பு',
-                text: 'இது ஒரு முதன்மை பகுப்பாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை. தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்.',
+                text: 'இது ஒரு முதன்மை பகுாய்வு மற்றும் தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை. தயவுசெய்து துல்லியமான நோயறிதலுக்கு மருத்துவரை அணுகவும்.',
             },
         },
         voice: {
@@ -571,6 +589,12 @@ export const translations = {
             description: "உங்கள் திட்டமிடப்பட்ட ஆலோசனைகள் இங்கே உள்ளன.",
             cancelButton: "ரத்துசெய்",
             noAppointments: "வரவிருக்கும் சந்திப்புகள் எதுவும் இல்லை."
+        },
+        details: {
+          hospital: "மருத்துவமனை",
+          specialty: "சிறப்பு",
+          contact: "தொடர்பு",
+          address: "முகவரி",
         }
     },
     medication: {

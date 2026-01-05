@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -31,6 +32,9 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { doctors, timeSlots } from '@/lib/doctors-data';
+import { useLanguage } from '@/context/language-context';
+import { translations } from '@/lib/i18n';
 
 const formSchema = z.object({
   doctorId: z.string({ required_error: 'Please select a doctor.' }),
@@ -40,41 +44,54 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const doctors = [
-    { id: '1', name: 'Dr. Anjali Sharma' },
-    { id: '2', name: 'Dr. Rajesh Kumar' },
-];
+type AppointmentFormProps = {
+  selectedDoctorId: string | null;
+  setSelectedDoctorId: (id: string | null) => void;
+};
 
-const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
 
-export function AppointmentForm() {
+export function AppointmentForm({ selectedDoctorId, setSelectedDoctorId }: AppointmentFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { language } = useLanguage();
+  const t = translations[language].appointments.form;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      doctorId: selectedDoctorId || undefined,
+    }
   });
 
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsLoading(false);
+    const doctor = doctors.find(d => d.id === values.doctorId);
     toast({
-      title: 'Appointment Booked!',
-      description: `Your appointment with ${doctors.find(d => d.id === values.doctorId)?.name} is confirmed for ${values.date.toDateString()} at ${values.timeSlot}.`,
+      title: t.successTitle,
+      description: t.successDescription
+        .replace('{doctorName}', doctor?.name || '')
+        .replace('{date}', values.date.toDateString())
+        .replace('{timeSlot}', values.timeSlot),
     });
-    form.reset();
+    form.reset({ doctorId: values.doctorId });
+    form.setValue('doctorId', values.doctorId);
   }
+  
+  const handleDoctorChange = (doctorId: string) => {
+    setSelectedDoctorId(doctorId);
+    form.setValue('doctorId', doctorId);
+  };
 
   return (
     <Card>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardHeader>
-            <CardTitle>Book an Appointment</CardTitle>
+            <CardTitle>{t.title}</CardTitle>
             <CardDescription>
-              Select a doctor and a time that works for you.
+              {t.description}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -83,11 +100,11 @@ export function AppointmentForm() {
               name="doctorId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Doctor</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormLabel>{t.doctorLabel}</FormLabel>
+                  <Select onValueChange={handleDoctorChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a doctor" />
+                        <SelectValue placeholder={t.doctorPlaceholder} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -104,8 +121,8 @@ export function AppointmentForm() {
               control={form.control}
               name="date"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date</FormLabel>
+                <FormItem>
+                  <FormLabel>{t.dateLabel}</FormLabel>
                   <FormControl>
                     <Calendar
                       mode="single"
@@ -113,7 +130,7 @@ export function AppointmentForm() {
                       onSelect={field.onChange}
                       disabled={(date) => date < new Date() || date < new Date('1900-01-01')}
                       initialFocus
-                      className="p-0"
+                      className="p-0 rounded-md border"
                     />
                   </FormControl>
                   <FormMessage />
@@ -125,11 +142,11 @@ export function AppointmentForm() {
               name="timeSlot"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Time Slot</FormLabel>
+                  <FormLabel>{t.timeSlotLabel}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a time" />
+                        <SelectValue placeholder={t.timeSlotPlaceholder} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -148,10 +165,10 @@ export function AppointmentForm() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Booking...
+                  {t.loadingButton}
                 </>
               ) : (
-                'Confirm Appointment'
+                t.button
               )}
             </Button>
           </CardFooter>
