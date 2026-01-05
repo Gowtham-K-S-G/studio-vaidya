@@ -1,12 +1,10 @@
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // -------------------------------------------------------------------------
-    // Helper Functions
-    // -------------------------------------------------------------------------
-
+    // ----------------------------
+    // Helper functions
+    // ----------------------------
     function isSignedIn() {
       return request.auth != null;
     }
@@ -15,37 +13,40 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    // -------------------------------------------------------------------------
-    // Collection Rules
-    // -------------------------------------------------------------------------
-
+    // ----------------------------
+    // Users collection
+    // ----------------------------
     match /users/{userId}/{document=**} {
-      // Users can only read and write their own documents.
       allow read, write: if isOwner(userId);
     }
-    
+
+    // ----------------------------
+    // Doctors collection
+    // ----------------------------
     match /doctors/{doctorId} {
-      // Anyone can read the list of doctors.
       allow read: if true;
-      // Only signed-in users can add a new doctor.
       allow create: if isSignedIn();
-      // Only admins should be able to update or delete doctors (not implemented yet).
-      allow update, delete: if false; 
+      allow update, delete: if false;
     }
 
-    // Rule for accessing a SINGLE notification document.
-    // A user can get or update their OWN notification.
+    // ----------------------------
+    // Notifications collection ✅ FIXED
+    // ----------------------------
     match /notifications/{notificationId} {
-        allow get, update: if isSignedIn() && resource.data.userId == request.auth.uid;
-        allow create: if isSignedIn();
-        allow delete: if false; // Users cannot delete notifications for now.
-    }
-    
-    // Rule for QUERYING the notifications collection.
-    // A user can LIST notifications, but ONLY if they filter by their own user ID.
-    // This is required for the dashboard component to fetch the user's notifications.
-    match /notifications/{document=**} {
-      allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
+
+      // Read = get + list (queries)
+      allow read: if isSignedIn()
+                  && resource.data.userId == request.auth.uid;
+
+      // Create notification
+      allow create: if isSignedIn();
+
+      // Update only own notification
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid;
+
+      // No deletes
+      allow delete: if false;
     }
   }
 }
