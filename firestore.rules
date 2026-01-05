@@ -33,21 +33,17 @@ service cloud.firestore {
       allow update, delete: if false; 
     }
 
-    // Rule for accessing a SINGLE notification document.
+    // A user can read/update their OWN notification, or create one.
     match /notifications/{notificationId} {
-        // A user can read/update a single notification if they are the owner.
         allow get, update: if isSignedIn() && isOwner(resource.data.userId);
-        // Any signed-in user can create notifications.
         allow create: if isSignedIn();
-         // Users cannot delete notifications for now.
-        allow delete: if false;
+        allow delete: if false; // Users cannot delete notifications for now.
     }
     
-    // Rule for QUERYING the notifications collection.
+    // A user can QUERY the notifications collection, but ONLY if they filter by their own user ID.
+    // This is required for the dashboard component to fetch the user's notifications.
     match /notifications/{document=**} {
-        // A user can list (query) notifications only if they are filtering by their own userId.
-        // This is crucial for allowing the dashboard query to work securely.
-        allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
+      allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
     }
   }
 }
