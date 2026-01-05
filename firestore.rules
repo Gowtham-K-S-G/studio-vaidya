@@ -33,10 +33,13 @@ service cloud.firestore {
     // Health Records collection
     // ----------------------------
     match /health_records/{recordId} {
-      allow read, write: if isOwner(resource.data.userId);
-    }
-     match /health_records/{document=**} {
-        allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
+      // Rule for single document access (get, create, update, delete)
+      allow write: if isOwner(request.resource.data.userId);
+
+      // Rule for LIST and GET operations.
+      // This allows a user to query the collection if they filter by their own UID,
+      // and it allows them to get a single document if they are the owner.
+      allow read: if isOwner(resource.data.userId);
     }
   }
 }
