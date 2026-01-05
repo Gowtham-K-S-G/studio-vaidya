@@ -19,6 +19,9 @@ import { useState } from 'react';
 import type { Medication } from '@/components/medication/medication-schedule';
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/i18n';
+import { useFirebase } from '@/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 
 const initialMedications: Medication[] = [
   { id: 1, name: 'Lisinopril', dosage: '10mg', time: '08:00', taken: true, type: 'Morning' },
@@ -33,14 +36,52 @@ export default function MedicationPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { language } = useLanguage();
   const t = translations[language].medication;
+  const { firestore, user } = useFirebase();
+  const { toast } = useToast();
 
-  const addMedication = (med: Omit<Medication, 'id' | 'taken'>) => {
+  const addMedication = async (med: Omit<Medication, 'id' | 'taken'>) => {
+    if (!user || !firestore) {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "You must be signed in to add medication.",
+        });
+        return;
+    }
+
     const newMedication: Medication = {
       ...med,
       id: medications.length + 1,
       taken: false,
     };
     setMedications([...medications, newMedication]);
+    
+    try {
+        const healthRecord = {
+            userId: user.uid,
+            title: `Added Medication: ${med.name}`,
+            date: new Date().toISOString(),
+            tags: ['Medication', med.type],
+            content: {
+                notes: `Added ${med.name} (${med.dosage}) to be taken at ${med.time}.`,
+                reports: [],
+            },
+        };
+        await addDoc(collection(firestore, 'health_records'), healthRecord);
+        toast({
+            title: "Medication Added",
+            description: `${med.name} has been added to your schedule and health records.`,
+        });
+
+    } catch (error) {
+        console.error("Failed to log medication:", error);
+        toast({
+            variant: "destructive",
+            title: "Logging Failed",
+            description: "Could not save the medication to your health records. Please try again."
+        });
+    }
+
     setIsFormOpen(false);
   };
 

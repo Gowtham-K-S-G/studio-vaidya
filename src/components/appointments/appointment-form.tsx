@@ -41,6 +41,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 
 export const timeSlots = ['10:00 AM', '11:00 AM', '02:00 PM', '04:30 PM'];
 
@@ -80,7 +82,7 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     setIsLoading(true);
     
     const doctor = doctors.find(d => d.id === values.doctorId);
-    if (!doctor || !user) {
+    if (!doctor || !user || !firestore) {
         setIsLoading(false);
         toast({
             variant: "destructive",
@@ -91,8 +93,29 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     }
 
     try {
-        // Here you could add logic to save the appointment to a collection
-        // For now, we just show a success toast.
+        const appointmentDate = new Date(values.date);
+        const [hours, minutes, ampm] = values.timeSlot.match(/(\d+):(\d+) (AM|PM)/)!.slice(1);
+        let numericHours = parseInt(hours, 10);
+        if (ampm === 'PM' && numericHours !== 12) {
+          numericHours += 12;
+        }
+        if (ampm === 'AM' && numericHours === 12) {
+          numericHours = 0;
+        }
+        appointmentDate.setHours(numericHours, parseInt(minutes, 10), 0, 0);
+
+        const healthRecord = {
+            userId: user.uid,
+            title: `Appointment with Dr. ${doctor.name}`,
+            date: appointmentDate.toISOString(),
+            tags: ['Appointment', doctor.specialty],
+            content: {
+                notes: `Scheduled an appointment for ${values.timeSlot}.`,
+                reports: [],
+            },
+        };
+        
+        await addDoc(collection(firestore, 'health_records'), healthRecord);
         
         toast({
             title: t.successTitle,

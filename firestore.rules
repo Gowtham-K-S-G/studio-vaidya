@@ -29,5 +29,14 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // ----------------------------
+    // Health Records collection
+    // ----------------------------
+    match /health_records/{recordId} {
+      allow read, write: if isOwner(resource.data.userId);
+    }
+     match /health_records/{document=**} {
+        allow list: if isSignedIn() && request.query.where.userId == request.auth.uid;
+    }
   }
 }
