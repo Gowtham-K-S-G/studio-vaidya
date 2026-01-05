@@ -25,18 +25,20 @@ service cloud.firestore {
     }
     
     match /doctors/{doctorId} {
-      allow read: if true; // Allow public read access to doctor list
-      allow list: if true; // Allow public list access
+      // Anyone can read the list of doctors.
+      allow read: if true;
       // Only signed-in users can add a new doctor.
-      allow create: if isSignedIn(); 
-      allow update, delete: if false; // Or add admin logic here
+      allow create: if isSignedIn();
+      // Only admins should be able to update or delete doctors (not implemented yet).
+      allow update, delete: if false; 
     }
 
     match /notifications/{notificationId} {
       // Only signed-in users can create notifications.
       allow create: if isSignedIn();
-      // Users can only read notifications intended for them (based on userId field in notification).
-      allow read, write: if isSignedIn() && isOwner(resource.data.userId);
+      // Users can only read/write notifications intended for them (based on the userId field).
+      // This allows a doctor to later mark their own notification as read.
+      allow read, write: if isOwner(resource.data.userId);
     }
   }
 }

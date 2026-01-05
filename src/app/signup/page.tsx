@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Logo } from '@/components/icons';
-import { useFirebase } from '@/firebase';
+import { useFirebase, errorEmitter, FirestorePermissionError } from '@/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
@@ -82,7 +82,15 @@ export default function SignupPage() {
       };
       
       const userDocRef = doc(firestore, 'users', newUser.uid);
-      await setDoc(userDocRef, userProfile);
+      setDoc(userDocRef, userProfile).catch((serverError) => {
+        const permissionError = new FirestorePermissionError({
+          path: userDocRef.path,
+          operation: 'create',
+          requestResourceData: userProfile,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+        throw permissionError; // Re-throw to be caught by the outer try-catch
+      });
 
       toast({
         title: 'Account Created!',
@@ -93,11 +101,14 @@ export default function SignupPage() {
 
     } catch (error: any) {
       console.error('Signup Error:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Signup Failed',
-        description: error.message || 'An unexpected error occurred.',
-      });
+      // Don't show a toast for permission errors as they're handled globally
+      if (!(error instanceof FirestorePermissionError)) {
+        toast({
+          variant: 'destructive',
+          title: 'Signup Failed',
+          description: error.message || 'An unexpected error occurred.',
+        });
+      }
     }
   };
 

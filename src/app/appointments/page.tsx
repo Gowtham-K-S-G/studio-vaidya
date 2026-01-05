@@ -64,16 +64,14 @@ export default function AppointmentsPage() {
         });
         setIsAddDoctorOpen(false);
     })
-    .catch((error) => {
-        console.error("Error adding doctor: ", error);
-        errorEmitter.emit(
-            'permission-error',
-            new FirestorePermissionError({
-                path: doctorsCollection.path,
-                operation: 'create',
-                requestResourceData: newDoctorData,
-            })
-        );
+    .catch((serverError) => {
+        console.error("Error adding doctor: ", serverError);
+        const permissionError = new FirestorePermissionError({
+            path: doctorsCollection.path,
+            operation: 'create',
+            requestResourceData: newDoctorData,
+        });
+        errorEmitter.emit('permission-error', permissionError);
     });
   };
 
