@@ -78,23 +78,11 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     }
   });
 
-  function createNotifications(doctor: Doctor, patientName: string, values: FormValues) {
+  function createPatientNotification(doctor: Doctor, values: FormValues) {
     if (!firestore || !user) return Promise.reject("Firestore not available or user not logged in");
 
-    const batch = writeBatch(firestore);
     const notificationsCollection = collection(firestore, 'notifications');
     
-    // Notification for the Doctor
-    const doctorNotification = {
-        userId: doctor.id, 
-        title: "New Appointment Booked",
-        message: `A new appointment has been booked with you by ${patientName} for ${format(values.date, "PPP")} at ${values.timeSlot}.`,
-        createdAt: serverTimestamp(),
-        isRead: false,
-    };
-    const doctorNotifRef = doc(notificationsCollection);
-    batch.set(doctorNotifRef, doctorNotification);
-
     // Notification for the Patient
     const patientNotification = {
         userId: user.uid,
@@ -103,17 +91,13 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
         createdAt: serverTimestamp(),
         isRead: false,
     };
-    const patientNotifRef = doc(notificationsCollection);
-    batch.set(patientNotifRef, patientNotification);
     
-    // Return the promise for the batch commit
-    return batch.commit().catch(error => {
-      console.error("Error creating notifications:", error);
-      // Create a single representative error for logging/display
+    return addDoc(notificationsCollection, patientNotification).catch(error => {
+      console.error("Error creating patient notification:", error);
       const permissionError = new FirestorePermissionError({
         path: notificationsCollection.path,
         operation: 'create',
-        requestResourceData: [doctorNotification, patientNotification], // Or just one for simplicity
+        requestResourceData: patientNotification,
       });
       errorEmitter.emit('permission-error', permissionError);
       throw permissionError; 
@@ -135,11 +119,8 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
         return;
     }
 
-    // Assuming user's name can be retrieved from displayName or email
-    const patientName = user.displayName || user.email || 'A patient';
-
     try {
-        await createNotifications(doctor, patientName, values);
+        await createPatientNotification(doctor, values);
         
         toast({
             title: t.successTitle,
@@ -150,7 +131,7 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
         });
         toast({
             title: "Notification Sent",
-            description: `You and Dr. ${doctor.name} have been notified of the appointment.`
+            description: `You have been notified of your appointment with Dr. ${doctor.name}.`
         });
         form.reset({ doctorId: values.doctorId });
         form.setValue('doctorId', values.doctorId);
