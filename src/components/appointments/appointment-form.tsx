@@ -297,5 +297,3 @@ export function AppointmentForm({ doctors, isLoadingDoctors, selectedDoctorId, s
     </Card>
   );
 }
-
-    
