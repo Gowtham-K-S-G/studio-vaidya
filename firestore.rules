@@ -24,8 +24,8 @@ service cloud.firestore {
     }
     
     match /doctors/{doctorId} {
-      allow read: if isSignedIn();
-      allow list: if isSignedIn();
+      allow read: if true; // Allow public read access to doctor list
+      allow list: if true; // Allow public list access
       allow create: if isSignedIn();
       allow update, delete: if false; // Or add admin logic here
     }
